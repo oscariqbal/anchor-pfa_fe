@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ProfileClient from "@/components/profileclient";
+import ProfileClient from "@/components/client/profileclient";
 
 export default function Profile() {
   

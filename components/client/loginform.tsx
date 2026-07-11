@@ -16,34 +16,33 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-
     const formData = new FormData(e.currentTarget);
 
     const email = formData.get("email");
     const password = formData.get("password");
-    
-    const response = await fetch("http://localhost:5555/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    try {
+      const response = await fetch("http://localhost:5555/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+        credentials: "include",
+      });
+      const data = await response.json();
 
-    const data = await response.json();
-    console.log("Response data:", data);
-
-    if (response.ok) {
-      localStorage.setItem("token", data.token);
-      route.replace("/profile");
-    } else {
-      console.log("Login error:", data.error);
-      setError(data.error || { email: "Login failed", password: "Login failed" });
+      if (response.ok) {
+        route.replace("/dashboard");
+      } else {
+        setError(data.error || { email: "Login failed", password: "Login failed" });
+      }
+    } catch (error) {
+      console.error("Login error:", error);
     }
-  };
+};
 
   return (
     <Card className="w-100">

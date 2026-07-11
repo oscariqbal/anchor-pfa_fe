@@ -3,8 +3,6 @@ import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-import Footer from '@/components/footer';
-
 import { ThemeProvider } from "next-themes"
 
 const inter = Inter({subsets:['latin'],variable:'--font-inter'});
@@ -25,10 +23,9 @@ export default function RootLayout({
     <html lang="en" className={cn("h-full", "antialiased", "font-sans", inter.variable, manrope.variable, "scroll-smooth", "scroll-pt-[12vh]", "sm:scroll-pt-[13vh]", "md:scroll-pt-[14vh]", "lg:scroll-pt-[15vh]")} suppressHydrationWarning>
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <main className="flex flex-col gap-20 sm:gap-25 md:gap-30 lg:gap-35">
+          <main>
             {children}
           </main>
-          <Footer />
         </ThemeProvider>
       </body>
     </html>

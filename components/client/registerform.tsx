@@ -9,7 +9,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet, } from "@/components/ui/field"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 
 export default function RegisterForm() {
   const route = useRouter();
@@ -26,7 +25,7 @@ export default function RegisterForm() {
 
     try {
       
-      const response = await fetch("http://localhost:5555/register", {
+      const response = await fetch("http://localhost:5555/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
