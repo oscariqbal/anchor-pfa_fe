@@ -21,7 +21,7 @@ export default function LoginForm() {
     const email = formData.get("email");
     const password = formData.get("password");
     try {
-      const response = await fetch("http://localhost:5555/api/login", {
+      const response = await fetch("http://localhost:5555/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +33,8 @@ export default function LoginForm() {
         credentials: "include",
       });
       const data = await response.json();
-
+      console.log("Login response:", data);
+      
       if (response.ok) {
         route.replace("/dashboard");
       } else {

@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import AnchorIcon from "@/public/icon";
-import LogoutButton from "@/components/client/logout";
+
+import DropdownAccount from "@/components/client/dropdownaccount";
 
 export default function Dashboard() {
   
@@ -18,7 +19,7 @@ export default function Dashboard() {
               </Button>
             </li>
             <li>
-              <LogoutButton />
+              <DropdownAccount />
             </li>
           </ul>
         </nav>

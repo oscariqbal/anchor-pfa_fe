@@ -1,14 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
+import { LogOutIcon } from "lucide-react"
 
-export default function LogoutButton() {
+export default function Logout() {
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:5555/api/logout", {
+      const response = await fetch("http://localhost:5555/api/auth/logout", {
         method: "POST",
         credentials: "include",
       });
@@ -23,8 +24,9 @@ export default function LogoutButton() {
   };
 
   return (
-    <Button className="cursor-pointer" onClick={handleLogout}>
-      Logout
-    </Button>
+    <DropdownMenuItem variant="destructive" className="cursor-pointer" onClick={handleLogout}>
+      <LogOutIcon />
+      Sign out
+    </DropdownMenuItem>
   );
 }

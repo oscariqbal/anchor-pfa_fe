@@ -9,7 +9,7 @@ export default async function ProtectedLayout({
   const cookieStore = await cookies();
 
   const response = await fetch(
-    "http://localhost:5555/api/profile",
+    "http://localhost:5555/api/auth/me",
     {
       headers: {
         Cookie: cookieStore.toString(),
