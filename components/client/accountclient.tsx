@@ -44,9 +44,9 @@ export default function ProfileClient() {
   }
 
   return (
-    <div className="w-full mx-auto border border-red-500 mt-4">
-      <h1>Name: {user.name}</h1>
-      <p>Email: {user.email}</p>
+    <div className="w-full flex flex-col items-center mt-4">
+      <h1 className="text-2xl md:text-5xl font-heading">{user.name}</h1>
+      <p className="text-base opacity-50">{user.email}</p>
     </div>
   );
 }

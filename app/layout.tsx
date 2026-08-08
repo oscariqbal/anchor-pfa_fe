@@ -9,7 +9,10 @@ const inter = Inter({subsets:['latin'],variable:'--font-inter'});
 const manrope = Manrope({subsets:['latin'],variable:'--font-manrope'});
 
 export const metadata: Metadata = {
-  title: "",
+  title: {
+    default: "Personal Finance Assistant",
+    template: "%s | Anchor - Personal Finance Assistant",
+  },
   description: "",
   keywords: "",
 };

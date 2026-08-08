@@ -1,6 +1,11 @@
 import LoginForm from "@/components/client/loginform";
 import HeaderPublic from "@/app/(public)/header";
 import FooterPublic from "@/app/(public)/footer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sign In",
+};
 
 export default function Login() {
   return (

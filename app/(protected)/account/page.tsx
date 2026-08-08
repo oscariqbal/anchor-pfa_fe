@@ -1,11 +1,31 @@
-import Image from "next/image";
+import HeaderProtected from "@/app/(protected)/header";
+import Link from "next/link";
 import AccountClient from "@/components/client/accountclient";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+} from "@/components/ui/breadcrumb";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Account",
+};
 
 export default function Account() {
-  
   return (
-    <div className="border border-red-500 h-[72vh] sm:h-[80vh] md:h-[82vh] lg:h-[81vh] w-[90vw] sm:w-[88vw] md:w-[86vw] lg:w-[84vw] mx-auto flex flex-col">
-      Profile Page
+    <div className="w-[90vw] sm:w-[88vw] md:w-[86vw] lg:w-[84vw] flex flex-col mx-auto">
+      <HeaderProtected />
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/account">Account</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <AccountClient />
     </div>
   );
