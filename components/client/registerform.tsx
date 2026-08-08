@@ -54,7 +54,7 @@ export default function RegisterForm() {
       <CardContent>
         <FieldSet>
           <FieldLegend>Create an Account</FieldLegend>
-          <FieldDescription>Enter your email and password below</FieldDescription>
+          <FieldDescription>Enter your name, email and password below</FieldDescription>
           <form onSubmit={handleSubmit}>
             <FieldGroup>
               <Field>
