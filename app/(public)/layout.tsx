@@ -1,5 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import HeaderPublic from "@/app/(public)/header";
+import FooterPublic from "@/app/(public)/footer";
 
 export default async function ProtectedLayout({
   children,
@@ -22,5 +24,10 @@ export default async function ProtectedLayout({
     redirect("/dashboard");
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <HeaderPublic />
+      {children}
+      <FooterPublic />
+    </>);
 }

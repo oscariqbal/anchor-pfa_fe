@@ -1,4 +1,3 @@
-import HeaderProtected from "@/app/(protected)/header";
 import Link from "next/link";
 import AccountClient from "@/components/client/accountclient";
 import {
@@ -16,7 +15,6 @@ export const metadata: Metadata = {
 export default function Account() {
   return (
     <div className="w-[90vw] sm:w-[88vw] md:w-[86vw] lg:w-[84vw] flex flex-col mx-auto">
-      <HeaderProtected />
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

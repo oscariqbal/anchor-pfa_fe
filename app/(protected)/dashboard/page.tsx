@@ -1,4 +1,3 @@
-import HeaderProtected from "@/app/(protected)/header";
 import Link from "next/link";
 import {
   Breadcrumb,
@@ -14,8 +13,7 @@ export const metadata: Metadata = {
 
 export default function Dashboard() {
   return (
-    <div className="w-[90vw] sm:w-[88vw] md:w-[86vw] lg:w-[84vw] flex flex-col mx-auto">
-      <HeaderProtected />
+    <div className="w-full">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -27,8 +25,7 @@ export default function Dashboard() {
       </Breadcrumb>
       <section className="h-[80vh] w-full p-2 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-5xl font-heading">Welcome </h1>
-          <p className="mt-4 opacity-50">Anchor helps you track spending, plan budgets, and build better financial habits.</p>
+          <h1 className="text-5xl font-heading">Welcome</h1>
         </div>
       </section>
     </div>

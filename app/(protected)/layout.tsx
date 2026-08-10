@@ -1,5 +1,8 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { SidebarProvider } from "@/components/ui/sidebar"
+import AppSidebar from "@/components/appsidebar";
+import HeaderProtected from "@/app/(protected)/header";
 
 export default async function ProtectedLayout({
   children,
@@ -22,5 +25,13 @@ export default async function ProtectedLayout({
     redirect("/login");
   }
 
-  return <>{children}</>;
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="w-full p-4 flex flex-col gap-4">
+        <HeaderProtected />
+        {children}
+      </main>
+    </SidebarProvider>
+  );
 }

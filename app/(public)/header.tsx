@@ -1,10 +1,10 @@
 import Link from "next/link";
-import AnchorIcon from "@/public/icon";
+import AnchorIcon from "@/public/icon/anchor";
 import { Button } from "@/components/ui/button";
 
 export default function HeaderPublic(){
   return (
-    <header className="w-full flex justify-between items-center">
+    <header className="w-[90%] sm:w-[88%] md:w-[86%] lg:w-[84%] flex mx-auto justify-between items-center">
       <nav className="w-full font-heading">
         <ul className="my-4 md:my-6 w-full flex justify-center items-center gap-2">
           <li>
