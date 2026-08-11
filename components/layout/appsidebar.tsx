@@ -39,12 +39,12 @@ export default function AppSidebar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/wallet">Wallet</Link>
+                  <Link href="/wallets">Wallets</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/transaction">Transaction</Link>
+                  <Link href="/transaction">Transactions</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

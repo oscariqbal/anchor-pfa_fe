@@ -1,4 +1,4 @@
-import DropdownAccount from "@/components/client/dropdownaccount";
+import DropdownAccount from "@/components/layout/dropdownaccount";
 import { SidebarTrigger } from "@/components/ui/sidebar"
 
 export default function HeaderProtected(){

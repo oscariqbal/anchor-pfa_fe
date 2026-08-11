@@ -1,5 +1,5 @@
 import Link from "next/link";
-import AccountClient from "@/components/client/accountclient";
+import AccountClient from "@/features/auth/profileclient";
 import {
   Breadcrumb,
   BreadcrumbItem,

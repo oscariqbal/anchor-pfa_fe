@@ -1,4 +1,4 @@
-import { ContactDock } from "@/components/contactsdock";
+import { ContactDock } from "@/components/layout/appcontacts";
 
 export default function FooterPublic(){
   return (

@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { SidebarProvider } from "@/components/ui/sidebar"
-import AppSidebar from "@/components/appsidebar";
+import AppSidebar from "@/components/layout/appsidebar";
 import HeaderProtected from "@/app/(protected)/header";
 
 export default async function ProtectedLayout({

@@ -2,23 +2,12 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button"
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 import { UserIcon } from "lucide-react"
 
-import Logout from "@/components/client/logout";
+import Logout from "@/features/auth/logout";
 
 export default function DropdownAccount() {
   return (
@@ -40,9 +29,7 @@ export default function DropdownAccount() {
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-
         <DropdownMenuSeparator />
-
         <DropdownMenuGroup>
           <Logout />
         </DropdownMenuGroup>
