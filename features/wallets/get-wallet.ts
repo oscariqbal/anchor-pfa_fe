@@ -1,17 +1,15 @@
 import { cookies } from "next/headers";
+import { GetWallet } from "./types";
 
-import * as WalletTypes from "./wallettypes";
 
-const cookieStore = await cookies();
-
-async function viewAllWallet(): Promise<WalletTypes.GetAll> {
+export default async function viewWallet(id: number): Promise<GetWallet> {
+  const cookieStore = await cookies();
   try {
-    const response = await fetch("http://localhost:5555/api/wallets", {
+    const response = await fetch(`http://localhost:5555/api/wallets/${id}`, {
       method: "GET",
       headers: {
         Cookie: cookieStore.toString(),
       },
-      credentials: "include",
     });
 
     if (!response.ok) {
@@ -22,11 +20,12 @@ async function viewAllWallet(): Promise<WalletTypes.GetAll> {
   } catch (error) {
     console.error("Fetch error:", error);
     return {
-      data: []
+      data: {
+        id: 0,
+        type: null,
+        name: "",
+        description: ""
+      }
     }
   }
-}
-
-export {
-  viewAllWallet
 }

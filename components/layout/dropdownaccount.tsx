@@ -13,16 +13,16 @@ export default function DropdownAccount() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
+        <Button variant="ghost" size="icon" className="rounded-full cursor-pointer">
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
             <AvatarFallback>LR</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent className="w-full">
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem className="cursor-pointer" asChild>
             <Link href="/account">
               <UserIcon />
               View account

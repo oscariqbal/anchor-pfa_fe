@@ -1,11 +1,7 @@
 import Link from "next/link";
 import AccountClient from "@/features/auth/profileclient";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-} from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, } from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator"
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function Account() {
   return (
-    <div className="w-[90vw] sm:w-[88vw] md:w-[86vw] lg:w-[84vw] flex flex-col mx-auto">
+    <div className="w-full flex flex-col gap-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -24,6 +20,7 @@ export default function Account() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
+      <Separator />
       <AccountClient />
     </div>
   );
