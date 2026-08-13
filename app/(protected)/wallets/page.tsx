@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/co
 import CreateWalletForm from "@/features/wallets/create-wallet-form";
 import viewAllWallets  from "@/features/wallets/view-all-wallets";
 import { BaseType, EnumType } from "@/features/wallets/schema";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Wallet",
@@ -49,7 +50,10 @@ export default async function Wallet() {
           </BreadcrumbList>
         </Breadcrumb>
         <Separator />
-        <section className="w-full flex items-center justify-between">
+        <section className="w-full flex flex-col gap-4">
+          <div className="ml-auto">
+            <CreateWalletForm />
+          </div>
           {grouped.map(({type, wallets}) => {
             return (
               <div key={type} className="w-full flex flex-col gap-4">
@@ -68,9 +72,6 @@ export default async function Wallet() {
                     </Card>
                   </Link>
                   ))}
-                  <div className="h-full w-full">
-                    <CreateWalletForm type={type}/>
-                  </div>
                 </div>
               </div>
             )

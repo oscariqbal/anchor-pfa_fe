@@ -14,7 +14,5 @@ export default async function viewAllWallets(): Promise<GetListType> {
     throw new Error("Failed to fetch wallets");
   }
 
-  const data = await response.json();
-
-  return getListSchema.parse(data);
+  return await response.json();
 }

@@ -1,15 +1,14 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "../../components/ui/dialog"
+import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "../../components/ui/select";
 import { Field, FieldGroup } from "../../components/ui/field"
 import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
 import { Button } from "../../components/ui/button";
-import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "../../components/ui/select";
-import { Plus } from 'lucide-react';
-import createWallet from "./create-wallet";
+import createWallet from "./create-wallet"
+import { useRouter } from "next/navigation";
+import { useState } from "react"
 
 const wallettypes = [
   { label: "CASH", value: "CASH" },
@@ -17,20 +16,39 @@ const wallettypes = [
   { label: "E_MONEY", value: "E_MONEY" },
 ]
 
-type Props = {
-  type: string
-}
+export default function CreateWalletForm() {
+  const [walletType, setWalletType] = useState("type");
+  const [openDialog, setOpenDialog] = useState(false)
 
-export default function CreateWalletForm({type}: Props) {
+  const route = useRouter();
+  async function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      type: walletType,
+      name: formData.get("name") as string,
+      description: formData.get("description") as string,
+    }
+
+    try {
+      await createWallet(data);
+      setOpenDialog(false);
+      route.refresh();
+    } catch (error) {
+      console.error(error)
+    }
+  };
+
   return (
-    <Dialog>
-      <form className="h-full w-full" onSubmit={createWallet}>
-        <DialogTrigger className="h-full w-full" asChild>
-          <Button variant="outline" className="h-full w-full opacity-100 cursor-pointer">
-            <Plus />
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-sm">
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+      <DialogTrigger asChild>
+        <Button variant="outline" className="cursor-pointer">
+          Create
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-sm">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <DialogHeader>
             <DialogTitle className="text-base">Create Wallet</DialogTitle>
             <DialogDescription>
@@ -40,15 +58,15 @@ export default function CreateWalletForm({type}: Props) {
           <FieldGroup>
             <Field>
               <Label htmlFor="type">Type</Label>
-              <Select>
+              <Select value={walletType} onValueChange={setWalletType} >
                 <SelectTrigger className="cursor-pointer">
-                  <SelectValue placeholder={type}/>
+                  <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     {wallettypes.map(({label, value}) => (
-                    <SelectItem key={label} value={label} className="cursor-pointer">
-                      {value}
+                    <SelectItem key={value} value={value} className="cursor-pointer">
+                      {label}
                     </SelectItem>
                     ))}
                   </SelectGroup>
@@ -70,8 +88,8 @@ export default function CreateWalletForm({type}: Props) {
             </DialogClose>
             <Button type="submit" className="cursor-pointer">Submit</Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 }
