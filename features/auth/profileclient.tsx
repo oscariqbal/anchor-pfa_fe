@@ -17,12 +17,13 @@ export default function ProfileClient() {
     const fetchProfile = async () => {
       try {
         const response = await fetch("http://localhost:5555/api/auth/me", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          });
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        
         const data = await response.json();
 
         if (response.ok) {

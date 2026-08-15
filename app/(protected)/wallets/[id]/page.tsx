@@ -2,11 +2,10 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator, } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, } from "@/components/ui/card"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { EllipsisVertical, SquarePen, Archive, Trash } from 'lucide-react';
-import viewWallet  from "@/features/wallets/get-wallet";
+import viewWallet  from "@/features/wallets/view-wallet";
 
 export const metadata: Metadata = {
   title: "Wallet",

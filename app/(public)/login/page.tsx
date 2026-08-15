@@ -1,4 +1,4 @@
-import LoginForm from "@/features/auth/loginform";
+import LoginForm from "@/features/auth/login-form";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
