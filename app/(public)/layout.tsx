@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import HeaderPublic from "@/app/(public)/header";
 import FooterPublic from "@/app/(public)/footer";
 
-export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
+export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
 
   const response = await fetch("http://localhost:5555/api/auth/me", {

@@ -1,18 +1,29 @@
-import { cookies } from "next/headers";
-import { GetListType, getListSchema } from "./schema";
+export default async function viewAllWallets() {
+  try {
+    const response = await fetch("http://localhost:5555/api/wallets", {
+      method: "GET",
+      credentials: "include",
+    });
 
-export default async function viewAllWallets(): Promise<GetListType> {
-  const cookieStore = await cookies();
-  const response = await fetch("http://localhost:5555/api/wallets", {
-    method: "GET",
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
+    const body = await response.json()
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch wallets");
+    if (!response.ok) {
+      return {
+        success: false,
+        message: body.message,
+        errors: body.errors
+      }
+    }
+
+    return {
+      success: true,
+      message: body.message,
+      data: body.data
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: "Network error"
+    }
   }
-
-  return await response.json();
 }

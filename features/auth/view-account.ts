@@ -2,9 +2,6 @@ export default async function viewAccount () {
   try {
     const response = await fetch("http://localhost:5555/api/auth/me", {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
       credentials: "include",
     });
 

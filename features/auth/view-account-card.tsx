@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import viewAccount from "./account";
+import viewAccount from "./view-account";
 
-export default function ProfileClient() {
+export default function ViewAccount() {
   const [data, setData] = useState<{ 
     success: boolean;
     message: string;
@@ -28,6 +28,7 @@ export default function ProfileClient() {
         setError(result)
       }
     }
+    
     result()
   }, []);
 

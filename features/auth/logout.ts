@@ -2,9 +2,6 @@ export default async function logout () {
   try {
     const response = await fetch("http://localhost:5555/api/auth/logout", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       credentials: "include",
     });
 
