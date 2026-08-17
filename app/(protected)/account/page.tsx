@@ -1,5 +1,5 @@
 import Link from "next/link";
-import AccountClient from "@/features/auth/profileclient";
+import AccountClient from "@/features/auth/account-item";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator"
 import type { Metadata } from "next";

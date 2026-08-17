@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import login from "./login"
 import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet, } from "@/components/ui/field"
 import { Button } from "@/components/ui/button"
@@ -10,40 +11,32 @@ import { Input } from "@/components/ui/input";
 
 export default function LoginForm() {
   const route = useRouter();
-  const [error, setError] = useState<{ email?: string; password?: string } | null>(null);
+  const [error, setError] = useState<{ 
+    success: boolean;
+    message: string;
+    errors?: {
+      field: Record<string, string[]>
+    }
+  } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
 
-    const email = formData.get("email");
-    const password = formData.get("password");
-
-    try {
-      const response = await fetch("http://localhost:5555/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-        credentials: "include",
-      });
-
-      const data = await response.json();
-      
-      if (response.ok) {
-        route.replace("/dashboard");
-      } else {
-        setError(data.error || { email: "Login failed", password: "Login failed" });
-      }
-    } catch (error) {
-      console.error("Login error:", error);
+    const data = {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
     }
-};
+
+    const result = await login(data)
+
+    if (result.success) {
+      route.replace("/dashboard");
+    } else {
+      setError(result)
+    }
+  };
 
   return (
     <Card className="w-100">
@@ -55,19 +48,13 @@ export default function LoginForm() {
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input name="email" id="email" type="email" placeholder="john@example.com" required aria-invalid={!!error?.email} />
-                {error?.email && (
-                <FieldDescription>{error.email}</FieldDescription>
-                )}
+                <Input name="email" id="email" type="email" placeholder="john@example.com" required />
               </Field>
               <Field>
                 <FieldLabel htmlFor="password">
                   Password
                 </FieldLabel>
-                <Input name="password" id="password" type="password" placeholder="••••••••" required aria-invalid={!!error?.password} />
-                {error?.password && (
-                <FieldDescription>{error.password}</FieldDescription>
-                )}
+                <Input name="password" id="password" type="password" placeholder="••••••••" required />
                 <div className="flex">
                   <div className="w-1/2 flex items-start gap-2">
                     <Input type="checkbox" id="remember" name="remember" className="border border-yellow-500 w-4 h-4"/>
@@ -80,6 +67,20 @@ export default function LoginForm() {
                   </FieldLabel>
                 </div>
               </Field>
+              {error && (
+                <>
+                  <p>{error.message}</p>
+                  {error.errors && (
+                    Object.entries(error.errors.field).map(([field, messages]) => (
+                    <div key={field}>
+                      <p>{field}</p>
+                      {messages.map((message) => (
+                        <p key={message}>{message}</p>
+                      ))}
+                    </div>
+                  )))}
+                </>
+              )}
               <Field>
                 <Button type="submit" className="w-full cursor-pointer">Sign In</Button>
               </Field>
