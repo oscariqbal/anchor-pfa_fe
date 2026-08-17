@@ -25,7 +25,12 @@ export const loginSchema = registerSchema.omit({
   name: true
 }).strict()
 
+export const getSchema = registerSchema.omit({
+  password: true
+}).strict()
+
 // === Types ===
 
 export type RegisterType = z.infer<typeof registerSchema>;
 export type LoginType = z.infer<typeof loginSchema>;
+export type GetType = z.infer<typeof getSchema>;

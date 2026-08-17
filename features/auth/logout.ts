@@ -1,13 +1,10 @@
- import { LoginType } from "./schema";
- 
- export default async function login (data: LoginType) {
+export default async function logout () {
   try {
-    const response = await fetch("http://localhost:5555/api/auth/login", {
+    const response = await fetch("http://localhost:5555/api/auth/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
       credentials: "include",
     });
 

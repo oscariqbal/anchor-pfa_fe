@@ -27,7 +27,7 @@ export default async function register (data: RegisterType) {
     }
   } catch (error) {
     return {
-      success:false,
+      success: false,
       message: "Network error"
     }
   }

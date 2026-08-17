@@ -1,25 +1,29 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import logout from "./logout";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { LogOutIcon } from "lucide-react"
 
 export default function Logout() {
   const router = useRouter();
+  const [error, setError] = useState<{ 
+    success: boolean;
+    message: string;
+    errors?: {
+      field: Record<string, string[]>
+    }
+  } | null>(null);
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("http://localhost:5555/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
+  async function handleLogout () {
+    const result = await logout()
 
-      if (!response.ok) {
-        throw new Error("Failed to logout");
-      }
+    if (result.success) {
       router.replace("/");
-    } catch (error) {
-      console.error("Logout error:", error);
+    } else {
+      console.error(error) // nanti pake toast
+      setError(result)
     }
   };
 

@@ -7,7 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 
 import { UserIcon } from "lucide-react"
 
-import Logout from "@/features/auth/logout";
+import Logout from "@/features/auth/logout-dropdownmenuitem";
 
 export default function DropdownAccount() {
   return (

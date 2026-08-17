@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Link from "next/link";
 import register from "./register";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,7 +19,7 @@ export default function RegisterForm() {
     }
   } | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
@@ -60,18 +60,17 @@ export default function RegisterForm() {
                 <Input name="password" id="password" type="password" placeholder="••••••••" required />
               </Field>
               {error && (
-                <>
-                  <p>{error.message}</p>
+                <div>
+                  <p className="mb-4 text-red-500">{error.message}</p>
                   {error.errors && (
                     Object.entries(error.errors.field).map(([field, messages]) => (
                     <div key={field}>
-                      <p>{field}</p>
                       {messages.map((message) => (
-                        <p key={message}>{message}</p>
+                        <p key={message} className="text-red-500">{message}</p>
                       ))}
                     </div>
                   )))}
-                </>
+                </div>
               )}
               <Field>
                 <Button type="submit" className="w-full cursor-pointer">Submit</Button>

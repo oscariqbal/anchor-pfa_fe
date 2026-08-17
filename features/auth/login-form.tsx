@@ -1,8 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import login from "./login"
 import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet, } from "@/components/ui/field"
@@ -19,7 +19,7 @@ export default function LoginForm() {
     }
   } | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
@@ -68,18 +68,17 @@ export default function LoginForm() {
                 </div>
               </Field>
               {error && (
-                <>
-                  <p>{error.message}</p>
+                <div>
+                  <p className="mb-4 text-red-500">{error.message}</p>
                   {error.errors && (
                     Object.entries(error.errors.field).map(([field, messages]) => (
                     <div key={field}>
-                      <p>{field}</p>
                       {messages.map((message) => (
-                        <p key={message}>{message}</p>
+                        <p key={message} className="text-red-500">{message}</p>
                       ))}
                     </div>
                   )))}
-                </>
+                </div>
               )}
               <Field>
                 <Button type="submit" className="w-full cursor-pointer">Sign In</Button>
