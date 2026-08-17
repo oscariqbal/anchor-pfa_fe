@@ -49,7 +49,7 @@ export default function ViewAllWallets() {
                   </CardAction>
                 </CardHeader>
                 <CardContent>
-                  ~balance~
+                  ~ balance ~
                 </CardContent>
               </Card>
             </Link>
