@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
-import CreateWalletForm from "@/features/wallets/create-wallet-form";
+import CreateWalletDialog from "@/features/wallets/create-wallet-dialog";
 import ViewAllWallets from "@/features/wallets/view-all-wallets-card";
 
 export const metadata: Metadata = {
@@ -24,7 +24,7 @@ export default async function Wallet() {
       <Separator />
       <section className="w-full flex flex-col gap-4">
         <div className="ml-auto">
-          <CreateWalletForm />
+          <CreateWalletDialog />
         </div>
         <div>
           <ViewAllWallets />

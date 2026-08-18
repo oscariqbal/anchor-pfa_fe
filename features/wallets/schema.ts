@@ -53,6 +53,8 @@ export const createSchema = baseSchema.omit({
   id: true,
 })
 
+export const updateSchema = createSchema.partial()
+
 export const getSchema = z.object({
   data: baseSchema
 })
@@ -65,5 +67,6 @@ export const getListSchema = z.object({
 
 export type BaseType = z.infer<typeof baseSchema>;
 export type CreateType = z.infer<typeof createSchema>;
+export type UpdateType = z.infer<typeof updateSchema>
 export type GetType = z.infer<typeof getSchema>;
 export type GetListType = z.infer<typeof getListSchema>;

@@ -7,6 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { Button } from "@/components/ui/button"
 import { EllipsisVertical, SquarePen, Archive, Trash } from 'lucide-react';
 import { Badge } from "@/components/ui/badge";
+import UpdateWalletDialog from "./update-wallet-dialog";
 import viewWallet from "./view-wallet";
 
 export default function ViewWallet({id}: {id: number}) {
@@ -22,6 +23,7 @@ export default function ViewWallet({id}: {id: number}) {
       field: Record<string, string[]>
     }
   } | null>(null);
+  const [updateOpen, setUpdateOpen] = useState(false)
 
   useEffect(() => {
     async function result () {
@@ -60,11 +62,9 @@ export default function ViewWallet({id}: {id: number}) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-full">
                   <DropdownMenuGroup>
-                    <DropdownMenuItem className="cursor-pointer" asChild>
-                      <Link href="/account">
+                    <DropdownMenuItem onSelect={() => setUpdateOpen(true)} className="cursor-pointer">
                         <SquarePen />
                         Edit wallet
-                      </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer" asChild>
                       <Link href="/account">
@@ -81,6 +81,7 @@ export default function ViewWallet({id}: {id: number}) {
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
+              <UpdateWalletDialog open={updateOpen} onOpenChange={setUpdateOpen} id={id} prefillData={data}/>
             </CardAction>
           </CardHeader>
           <CardContent>

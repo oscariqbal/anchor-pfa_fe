@@ -1,12 +1,12 @@
 'use client'
 
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "../../components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../../components/ui/dialog"
 import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "../../components/ui/select";
 import { Field, FieldGroup } from "../../components/ui/field"
 import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
 import { Button } from "../../components/ui/button";
-import createWallet from "./create-wallet"
+import updateWallet from "./update-wallet"
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 
@@ -16,9 +16,26 @@ const wallettypes = [
   { label: "E_MONEY", value: "E_MONEY" },
 ]
 
-export default function CreateWalletForm() {
-  const [walletType, setWalletType] = useState("type");
-  const [openDialog, setOpenDialog] = useState(false)
+type Props = {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  id: number
+  prefillData?: {
+    success: boolean
+    message: string
+    data?: Record<string, string>
+  }
+}
+
+export default function UpdateWalletDialog({ open, onOpenChange, id, prefillData }: Props) {
+  const [walletType, setWalletType] = useState(prefillData?.data?.type);
+  const [error, setError] = useState<{
+    success: boolean;
+    message: string;
+    errors?: {
+      field: Record<string, string[]>
+    }
+  } | null>(null);
 
   const route = useRouter();
   async function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
@@ -31,22 +48,18 @@ export default function CreateWalletForm() {
       description: formData.get("description") as string,
     }
 
-    try {
-      await createWallet(data);
-      setOpenDialog(false);
-      route.refresh();
-    } catch (error) {
-      console.error(error)
+    const result = await updateWallet(data, id)
+
+    if (result.success) {
+      onOpenChange(false)
+      route.refresh()
+    } else {
+      setError(result)
     }
   };
 
   return (
-    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="cursor-pointer">
-          Create
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-sm">
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <DialogHeader>
@@ -75,11 +88,11 @@ export default function CreateWalletForm() {
             </Field>
             <Field>
               <Label htmlFor="name">Name</Label>
-              <Input id="name" name="name" defaultValue="" />
+              <Input id="name" name="name" defaultValue={prefillData?.data?.name} />
             </Field>
             <Field>
               <Label htmlFor="description">Description</Label>
-              <Input id="description" name="description" defaultValue="" />
+              <Input id="description" name="description" defaultValue={prefillData?.data?.description} />
             </Field>
           </FieldGroup>
           <DialogFooter>
