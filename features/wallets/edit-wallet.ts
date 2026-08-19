@@ -1,7 +1,7 @@
 import { UpdateType } from "./schema";
 
 export default async function updateWallet (data:  {
-  type: "CASH" | "BANK" | "E_WALLET";
+  type: "CASH" | "BANK" | "E_MONEY";
   name: string;
   description: string;
 } | undefined, id: number) {

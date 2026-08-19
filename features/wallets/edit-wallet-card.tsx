@@ -22,7 +22,7 @@ type Props = {
   id: number
 }
 
-type WalletType = "CASH" | "BANK" | "E_WALLET";
+type WalletType = "CASH" | "BANK" | "E_MONEY";
 
 type UpdateWallet = {
   type: WalletType;

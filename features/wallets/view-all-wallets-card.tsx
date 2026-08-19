@@ -33,14 +33,16 @@ export default function ViewAllWallets() {
     }
 
     result()
-  })
+  }, [])
+
+  console.log(data)
 
   return (
     <>
       {data && (
         <div className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {data.data && (
-            data.data.map(({ id, type, name, description}) => (
+            data.data.map(({ id, type, name, description }) => (
               <Link href={`/wallets/${id}`} key={id}>
                 <Card className="rounded-md">
                   <CardHeader>

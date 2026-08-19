@@ -6,7 +6,7 @@ import updateWallet from "./edit-wallet"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type WalletType = "CASH" | "BANK" | "E_WALLET";
+type WalletType = "CASH" | "BANK" | "E_MONEY";
 
 type UpdateWallets = {
   type: WalletType;

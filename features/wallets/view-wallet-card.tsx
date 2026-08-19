@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardAction } from "@/components/ui/card"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { EllipsisVertical, SquarePen, Archive, Trash } from 'lucide-react';
+import { EllipsisVertical, SquarePen, Archive, ArchiveRestore, Trash } from 'lucide-react';
 import { Badge } from "@/components/ui/badge";
 import DestroyWalletDialog from "./destroy-wallet-dialog";
 import viewWallet from "./view-wallet";
@@ -66,12 +66,6 @@ export default function ViewWallet({id}: {id: number}) {
                       <Link href={`/wallets/${id}/edit`}>
                         <SquarePen />
                         Edit
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer" asChild>
-                      <Link href="/account">
-                        <Archive />
-                        Archive
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onSelect={() => setDeleteOpen(true)} variant="destructive" className="cursor-pointer">
