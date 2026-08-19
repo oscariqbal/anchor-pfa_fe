@@ -7,7 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { Button } from "@/components/ui/button"
 import { EllipsisVertical, SquarePen, Archive, Trash } from 'lucide-react';
 import { Badge } from "@/components/ui/badge";
-import UpdateWalletDialog from "./update-wallet-dialog";
+import UpdateWalletDialog from "./edit-wallet-card";
 import viewWallet from "./view-wallet";
 
 export default function ViewWallet({id}: {id: number}) {
@@ -23,7 +23,7 @@ export default function ViewWallet({id}: {id: number}) {
       field: Record<string, string[]>
     }
   } | null>(null);
-  const [updateOpen, setUpdateOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
 
   useEffect(() => {
     async function result () {
@@ -37,7 +37,7 @@ export default function ViewWallet({id}: {id: number}) {
     }
 
     result()
-  })
+  }, [])
 
   return (
     <>
@@ -62,26 +62,27 @@ export default function ViewWallet({id}: {id: number}) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-full">
                   <DropdownMenuGroup>
-                    <DropdownMenuItem onSelect={() => setUpdateOpen(true)} className="cursor-pointer">
+                    <DropdownMenuItem className="cursor-pointer" asChild>
+                      <Link href={`/wallets/${id}/edit`}>
                         <SquarePen />
-                        Edit wallet
+                        Edit
+                      </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer" asChild>
                       <Link href="/account">
                         <Archive />
-                        Archive wallet
+                        Archive
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem variant="destructive" className="cursor-pointer" asChild>
+                    <DropdownMenuItem onSelect={() => setDeleteOpen(true)} variant="destructive" className="cursor-pointer" asChild>
                       <Link href="/account">
                         <Trash />
-                        Remove wallet
+                        Destroy
                       </Link>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <UpdateWalletDialog open={updateOpen} onOpenChange={setUpdateOpen} id={id} prefillData={data}/>
             </CardAction>
           </CardHeader>
           <CardContent>
