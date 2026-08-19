@@ -7,7 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { Button } from "@/components/ui/button"
 import { EllipsisVertical, SquarePen, Archive, Trash } from 'lucide-react';
 import { Badge } from "@/components/ui/badge";
-import UpdateWalletDialog from "./edit-wallet-card";
+import DestroyWalletDialog from "./destroy-wallet-dialog";
 import viewWallet from "./view-wallet";
 
 export default function ViewWallet({id}: {id: number}) {
@@ -74,15 +74,14 @@ export default function ViewWallet({id}: {id: number}) {
                         Archive
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onSelect={() => setDeleteOpen(true)} variant="destructive" className="cursor-pointer" asChild>
-                      <Link href="/account">
-                        <Trash />
-                        Destroy
-                      </Link>
+                    <DropdownMenuItem onSelect={() => setDeleteOpen(true)} variant="destructive" className="cursor-pointer">
+                      <Trash />
+                      Destroy
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
+              <DestroyWalletDialog open={deleteOpen} onOpenChange={setDeleteOpen} id={id} />
             </CardAction>
           </CardHeader>
           <CardContent>
