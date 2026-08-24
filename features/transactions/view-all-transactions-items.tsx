@@ -57,8 +57,8 @@ export default function ViewAllTransactions() {
     <div>
       {data?.data && (
         data.data.map(({ id, type, amount, note, time, sourceWallet, destinationWallet }) => (
-          <>
-            <Link href={`/transactions/${id}`} key={id}>
+          <div key={id}>
+            <Link href={`/transactions/${id}`}>
               <Item size="sm">
                 <ItemContent className="grid grid-flow-col grid-rows-2">
                   { sourceWallet && destinationWallet ? (
@@ -82,7 +82,7 @@ export default function ViewAllTransactions() {
               </Item>
             </Link>
             <Separator />
-          </>
+          </div>
         ))
       )}
     </div>
