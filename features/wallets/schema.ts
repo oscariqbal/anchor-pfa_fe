@@ -22,7 +22,7 @@ export const querySchema = z.object({
     .boolean("Wallet archived must be boolean")
     .optional(),
   type: z
-    .enum(["CASH", "BANK", "E_MONEY", "Wallet type must be one of the provided type"])
+    .enum(enumWallet, "Wallet type must be one of the provided type")
     .optional(),
   search: z
     .string("Wallet search must be a string")
