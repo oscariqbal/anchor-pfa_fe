@@ -44,7 +44,7 @@ export default function AppSidebar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/transaction">Transactions</Link>
+                  <Link href="/transactions">Transactions</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

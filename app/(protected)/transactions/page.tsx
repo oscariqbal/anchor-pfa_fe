@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import CreateWalletDialog from "@/features/wallets/create-wallet-dialog";
-import ViewAllWallets from "@/features/wallets/view-all-wallets-cards";
+import ViewAllTransactions from "@/features/transactions/view-all-transactions-items";
 
 export const metadata: Metadata = {
   title: "Wallet",
@@ -16,7 +16,7 @@ export default async function Wallet() {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/wallets">Wallets</Link>
+              <Link href="/transactions">Transactions</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
         </BreadcrumbList>
@@ -24,10 +24,11 @@ export default async function Wallet() {
       <Separator />
       <section className="w-full flex flex-col gap-4">
         <div className="ml-auto">
+          {/* ganti ke component create transaction */}
           <CreateWalletDialog />
         </div>
         <div>
-          <ViewAllWallets />
+          <ViewAllTransactions />
         </div>
       </section>
     </div>
