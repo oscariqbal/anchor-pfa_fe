@@ -1,51 +1,57 @@
 'use client'
 
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "../../components/ui/dialog"
-import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "../../components/ui/select";
-import { Field, FieldGroup } from "../../components/ui/field"
-import { Input } from "../../components/ui/input"
-import { Label } from "../../components/ui/label"
-import { Button } from "../../components/ui/button";
-import createWallet from "./create-wallet"
+// ui components
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
+import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "@/components/ui/select";
+import { Field, FieldGroup } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button";
+
+// api
+import createWallet from "@/features/wallets/create-wallet"
+
+// schema and types
+import { createSchema, CreateType, enumWallet } from "@/features/wallets/schema";
+
+// others
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { applyFieldErrors } from "@/helpers/applyFieldErrors";
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 
-const wallettypes = [
-  { label: "CASH", value: "CASH" },
-  { label: "BANK", value: "BANK" },
-  { label: "E_MONEY", value: "E_MONEY" },
-]
-
 export default function CreateWalletDialog() {
-  const [walletType, setWalletType] = useState("type");
-  const [openDialog, setOpenDialog] = useState(false)
-  const [error, setError] = useState<{
-    success: boolean;
-    message: string;
-    errors?: {
-      field: Record<string, string[]>
+  const {register, handleSubmit, control, formState: {errors}, setError, reset} = useForm<CreateType>({
+    resolver: zodResolver(createSchema),
+    defaultValues: {
+      type: "",
+      name: "",
+      description: ""
     }
-  } | null>(null);
+  });
+
+  const [openDialog, setOpenDialog] = useState(false)
 
   const route = useRouter();
   
-  async function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const data = {
-      type: walletType,
-      name: formData.get("name") as string,
-      description: formData.get("description") as string,
-    }
-
+  async function onSubmit (data: CreateType) {
     const result = await createWallet(data)
 
     if (result.success) {
+      reset()
       setOpenDialog(false)
       route.refresh()
     } else {
-      setError(result)
+      if (result.errors.field) {
+        applyFieldErrors(result.errors.field, setError) // type assertion issue here
+      }
+      if (result.errors?.general) {
+        setError("root.serverError", {
+          type: "server",
+          message: result.errors.general,
+        });
+      }
     }
   };
 
@@ -57,7 +63,7 @@ export default function CreateWalletDialog() {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
           <DialogHeader>
             <DialogTitle className="text-base">Create Wallet</DialogTitle>
             <DialogDescription>
@@ -67,30 +73,44 @@ export default function CreateWalletDialog() {
           <FieldGroup>
             <Field>
               <Label htmlFor="type">Type</Label>
-              <Select value={walletType} onValueChange={setWalletType} >
+              <Controller name="type" control={control} render={({field}) => (
+                <Select value={field.value} onValueChange={field.onChange} >
                 <SelectTrigger className="cursor-pointer">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    {wallettypes.map(({label, value}) => (
-                    <SelectItem key={value} value={value} className="cursor-pointer">
-                      {label}
+                    {enumWallet.map((option) => (
+                    <SelectItem key={option} value={option} className="cursor-pointer">
+                      {option}
                     </SelectItem>
                     ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
+              )} />
+              {errors.type && (
+                <p className="text-red-400">{errors.type.message}</p>
+              )}
             </Field>
             <Field>
               <Label htmlFor="name">Name</Label>
-              <Input id="name" name="name" defaultValue="" />
+              <Input {...register("name")} />
+              {errors.name && (
+                <p className="text-red-400">{errors.name.message}</p>
+              )}
             </Field>
             <Field>
               <Label htmlFor="description">Description</Label>
-              <Input id="description" name="description" defaultValue="" />
+              <Input {...register("description")} />
+              {errors.description && (
+                <p className="text-red-400">{errors.description.message}</p>
+              )}
             </Field>
           </FieldGroup>
+          {errors.root?.serverError && (
+            <p className="text-red-400">{errors.root.serverError.message}</p>
+          )}
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline" className="cursor-pointer">Cancel</Button>

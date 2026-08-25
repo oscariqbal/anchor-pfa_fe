@@ -1,66 +1,46 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import Link from "next/link";
+// ui components
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardAction } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge";
+
+// api
 import viewAllWallets from "./view-all-wallets";
 
-export default function ViewAllWallets() {
-  const [data, setData] = useState<{ 
-    success: boolean;
-    message: string;
-    data?: Record<string, string>[]
-  } | null>(null);
-  const [error, setError] = useState<{ 
-    success: boolean;
-    message: string;
-    errors?: {
-      field: Record<string, string[]>
-    }
-  } | null>(null);
+// schema and types
+import { BaseType } from "./schema";
 
-  useEffect(() => {
-    async function result () {
-      const result = await viewAllWallets()
-      
-      if (result.success) {
-        setData(result)
-      } else {
-        setError(result)
-      }
-    }
+// others
+import Link from "next/link";
 
-    result()
-  }, [])
-
-  console.log(data)
+export default async function ViewAllWallets() {
+  const result = await viewAllWallets()
+    
+  if (!result.success) {
+    return (
+      <p>error</p> // error ui
+    )
+  }
 
   return (
-    <>
-      {data && (
-        <div className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {data.data && (
-            data.data.map(({ id, type, name, description }) => (
-              <Link href={`/wallets/${id}`} key={id}>
-                <Card className="rounded-md">
-                  <CardHeader>
-                    <CardTitle>{name}</CardTitle>
-                    <CardDescription>{description}</CardDescription>
-                    <CardAction>
-                      <Badge variant="secondary">{type}</Badge>
-                    </CardAction>
-                  </CardHeader>
-                  <CardContent>
-                    ~ balance ~
-                  </CardContent>
-                </Card>
-              </Link>
-            ))
-          )}
-        </div>
+    <div className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      {result.data && (
+        result.data.map(({ id, type, name, description }: BaseType) => (
+          <Link href={`/wallets/${id}`} key={id}>
+            <Card className="rounded-md">
+              <CardHeader>
+                <CardTitle className="line-clamp-1 text-xs md:text-base">{name}</CardTitle>
+                <CardDescription className="line-clamp-2 text-xs md:text-base">{description}</CardDescription>
+                <CardAction>
+                  <Badge variant="secondary">{type}</Badge>
+                </CardAction>
+              </CardHeader>
+              <CardContent>
+                ~ balance ~
+              </CardContent>
+            </Card>
+          </Link>
+        ))
       )}
-    </>
+    </div>
   );
 }

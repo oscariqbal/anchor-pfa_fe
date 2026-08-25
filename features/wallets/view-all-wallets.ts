@@ -1,8 +1,14 @@
+import { cookies } from "next/headers";
+
 export default async function viewAllWallets() {
+  const cookieStore = await cookies();
   try {
     const response = await fetch("http://localhost:5555/api/wallets", {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
       method: "GET",
-      credentials: "include",
+      cache: "no-store"
     });
 
     const body = await response.json()
