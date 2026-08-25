@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 // api
 import createWallet from "@/features/wallets/create-wallet"
 
-// schema and types
+// schemas and types
 import { createSchema, CreateType, enumWallet } from "@/features/wallets/schema";
 
 // others

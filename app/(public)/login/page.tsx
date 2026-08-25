@@ -1,4 +1,7 @@
+// custom components
 import LoginForm from "@/features/auth/login-form";
+
+// others
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

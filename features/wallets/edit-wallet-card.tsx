@@ -1,26 +1,24 @@
 'use client'
 
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "../../components/ui/select";
-import { Field, FieldGroup } from "../../components/ui/field"
-import { Input } from "../../components/ui/input"
-import { Label } from "../../components/ui/label"
-import { Button } from "../../components/ui/button";
+// ui components
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "@/components/ui/select"
+import { Field, FieldGroup } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
+
+// api
 import viewWallet from "./view-wallet";
-import { useRouter } from "next/navigation";
+
+// schema and types
+import { enumWallet } from "./schema"
+
+// others
+import EditWalletDialog from "./edit-wallet-dialog"
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link";
-import EditWalletDialog from "./edit-wallet-dialog";
-
-const wallettypes = [
-  { label: "CASH", value: "CASH" },
-  { label: "BANK", value: "BANK" },
-  { label: "E_MONEY", value: "E_MONEY" },
-]
-
-type Props = {
-  id: number
-}
 
 type WalletType = "CASH" | "BANK" | "E_MONEY";
 
@@ -30,7 +28,7 @@ type UpdateWallet = {
   description: string;
 };
 
-export default function EditWalletCard({ id }: Props) {
+export default function EditWalletCard({ id }: Record<string, number>) {
   const [getData, setGetData] = useState<{ 
     success: boolean;
     message: string;
@@ -95,9 +93,9 @@ export default function EditWalletCard({ id }: Props) {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        {wallettypes.map(({label, value}) => (
-                        <SelectItem key={value} value={value} className="cursor-pointer">
-                          {label}
+                        {enumWallet.map((option) => (
+                        <SelectItem key={option} value={option} className="cursor-pointer">
+                          {option}
                         </SelectItem>
                         ))}
                       </SelectGroup>

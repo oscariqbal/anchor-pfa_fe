@@ -1,15 +1,20 @@
-import Link from "next/link";
-import type { Metadata } from "next";
+// ui components
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
+
+// custom components
 import CreateWalletDialog from "@/features/wallets/create-wallet-dialog";
 import ViewAllWallets from "@/features/wallets/view-all-wallets-cards";
 
+// others
+import type { Metadata } from "next";
+import Link from "next/link";
+
 export const metadata: Metadata = {
-  title: "Wallet",
+  title: "Wallets",
 };
 
-export default async function Wallet() {
+export default async function Wallets() {
   return (
     <div className="w-full flex flex-col gap-4">
       <Breadcrumb>

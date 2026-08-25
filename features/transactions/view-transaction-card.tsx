@@ -1,13 +1,22 @@
 "use client";
 
+// ui components
+import { Card, CardContent, CardHeader, CardTitle, CardAction } from "@/components/ui/card"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+
+// custom components
+// import DestroyWalletDialog from "./destroy-wallet-dialog";
+
+// api
+import viewTransaction from "./view-transaction";
+
+// icons
+import { EllipsisVertical, SquarePen, Trash } from 'lucide-react';
+
+// others
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardAction } from "@/components/ui/card"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { EllipsisVertical, SquarePen, Archive, ArchiveRestore, Trash } from 'lucide-react';
-// import DestroyWalletDialog from "./destroy-wallet-dialog";
-import viewTransaction from "./view-transaction";
 
 export default function ViewTransaction({id}: {id: number}) {
   const [data, setData] = useState<{ 

@@ -1,3 +1,4 @@
+// schemas and types
 import { CreateType } from "./schema";
 
 export default async function createWallet (data: CreateType) {

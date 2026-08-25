@@ -1,3 +1,4 @@
+// others
 import { UpdateType } from "./schema";
 
 export default async function destroyWallet (id: number) {

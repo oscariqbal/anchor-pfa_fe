@@ -1,8 +1,15 @@
+// ui components
+import { SidebarProvider } from "@/components/ui/sidebar"
+
+// layout components
+import AppSidebar from "@/components/layout/appsidebar";
+
+// custom components
+import HeaderProtected from "@/app/(protected)/header";
+
+// others
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { SidebarProvider } from "@/components/ui/sidebar"
-import AppSidebar from "@/components/layout/appsidebar";
-import HeaderProtected from "@/app/(protected)/header";
 
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();

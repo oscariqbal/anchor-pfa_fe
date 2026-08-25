@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 // api
 import viewAllWallets from "./view-all-wallets";
 
-// schema and types
+// schemas and types
 import { BaseType } from "./schema";
 
 // others

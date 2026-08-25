@@ -1,11 +1,16 @@
-import Link from "next/link";
-import type { Metadata } from "next";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator, } from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
+// ui components
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator, } from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+
+// custom components
 import ViewTransaction  from "@/features/transactions/view-transaction-card";
 
+// others
+import type { Metadata } from "next";
+import Link from "next/link";
+
 export const metadata: Metadata = {
-  title: "Wallet",
+  title: "Transaction Details",
 };
 
 type Props = {

@@ -1,3 +1,4 @@
+// layout components
 import { ContactDock } from "@/components/layout/appcontacts";
 
 export default function FooterPublic(){

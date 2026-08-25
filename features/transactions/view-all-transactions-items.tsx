@@ -1,10 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import viewAllTransactions from "./view-all-transactions";
+// ui components
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/ui/item"
 import { Separator } from "@/components/ui/separator";
+
+// api
+import viewAllTransactions from "./view-all-transactions";
+
+// others
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export default function ViewAllTransactions() {

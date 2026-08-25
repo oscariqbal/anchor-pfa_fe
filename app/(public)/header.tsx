@@ -1,6 +1,11 @@
-import Link from "next/link";
-import AnchorIcon from "@/public/icon/anchor";
+// ui components
 import { Button } from "@/components/ui/button";
+
+// icons
+import AnchorIcon from "@/public/icon/anchor";
+
+// others
+import Link from "next/link";
 
 export default function HeaderPublic(){
   return (

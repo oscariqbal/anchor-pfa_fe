@@ -1,14 +1,24 @@
 "use client";
 
+// ui components
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardAction } from "@/components/ui/card"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge";
+
+// custom components
+import DestroyWalletDialog from "./destroy-wallet-dialog";
+
+// api
+import viewWallet from "./view-wallet";
+
+// schema and types
+
+
+// others
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardAction } from "@/components/ui/card"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { EllipsisVertical, SquarePen, Archive, ArchiveRestore, Trash } from 'lucide-react';
-import { Badge } from "@/components/ui/badge";
-import DestroyWalletDialog from "./destroy-wallet-dialog";
-import viewWallet from "./view-wallet";
+import { EllipsisVertical, SquarePen, Trash } from 'lucide-react';
 
 export default function ViewWallet({id}: {id: number}) {
   const [data, setData] = useState<{ 

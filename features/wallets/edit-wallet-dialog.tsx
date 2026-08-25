@@ -1,10 +1,18 @@
 'use client'
 
+// ui components
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
+
+// api
 import updateWallet from "./edit-wallet"
-import { useRouter } from "next/navigation";
+
+// schema and types
+
+
+// others
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type WalletType = "CASH" | "BANK" | "E_MONEY";
 

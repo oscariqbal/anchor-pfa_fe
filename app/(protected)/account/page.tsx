@@ -1,8 +1,13 @@
-import Link from "next/link";
-import AccountClient from "@/features/auth/view-account-card";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, } from "@/components/ui/breadcrumb";
+// ui components
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList} from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator"
+
+// custom components
+import AccountClient from "@/features/auth/view-account-card"
+
+// others
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Account",
