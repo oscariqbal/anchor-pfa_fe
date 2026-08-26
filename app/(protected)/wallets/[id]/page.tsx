@@ -5,6 +5,9 @@ import { Separator } from "@/components/ui/separator";
 // custom components
 import ViewWallet  from "@/features/wallets/view-wallet-card";
 
+// schema and types
+import { Params } from "@/features/wallets/schema";
+
 // others
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -13,13 +16,7 @@ export const metadata: Metadata = {
   title: "Wallet Details",
 };
 
-type Props = {
-  params: Promise<{
-    id:number
-  }>,
-}
-
-export default async function Wallet({params}: Props) {
+export default async function Wallet({params}: Params) {
   const { id } = await params;
   return (
     <div className="w-full flex flex-col gap-4">

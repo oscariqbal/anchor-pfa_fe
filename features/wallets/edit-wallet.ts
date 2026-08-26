@@ -1,11 +1,7 @@
 // others
 import { UpdateType } from "./schema";
 
-export default async function updateWallet (data:  {
-  type: "CASH" | "BANK" | "E_MONEY";
-  name: string;
-  description: string;
-} | undefined, id: number) {
+export default async function updateWallet (data: UpdateType, id: number) {
   try {
     const response = await fetch(`http://localhost:5555/api/wallets/${id}`, {
       method: "PATCH",

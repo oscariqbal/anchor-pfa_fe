@@ -4,32 +4,6 @@ export const enumWallet = ["CASH", "BANK", "E_MONEY"]
 export const enumWalletSchema = z.enum(enumWallet);
 export type EnumType = z.infer<typeof enumWalletSchema>;
 
-// === Params ===
-
-export const paramsSchema = z.object({
-  id: z
-    .coerce
-    .number("Wallet id must be a number")
-    .int("Wallet id must be an integer")
-    .positive("Wallet id must be positive")
-})
-
-// === Query ===
-
-export const querySchema = z.object({
-  archived: z.
-    coerce
-    .boolean("Wallet archived must be boolean")
-    .optional(),
-  type: z
-    .enum(enumWallet, "Wallet type must be one of the provided type")
-    .optional(),
-  search: z
-    .string("Wallet search must be a string")
-    .trim()
-    .optional(),
-});
-
 // === Body ===
 
 export const baseSchema = z.object({
@@ -70,3 +44,17 @@ export type CreateType = z.infer<typeof createSchema>;
 export type UpdateType = z.infer<typeof updateSchema>
 export type GetType = z.infer<typeof getSchema>;
 export type GetListType = z.infer<typeof getListSchema>;
+
+// === Props Types ===
+
+export type Params = {
+  params: Promise<{
+    id:number
+  }>,
+}
+
+export type EditDialog = {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onConfirm: () => void
+}

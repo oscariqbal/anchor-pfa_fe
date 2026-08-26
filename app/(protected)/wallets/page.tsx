@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Wallets",
 };
 
-export default async function Wallets() {
+export default function Wallets() {
   return (
     <div className="w-full flex flex-col gap-4">
       <Breadcrumb>

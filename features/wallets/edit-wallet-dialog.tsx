@@ -4,50 +4,11 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
 
-// api
-import updateWallet from "./edit-wallet"
-
 // schema and types
+import { EditDialog } from "./schema";
 
 
-// others
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-
-type WalletType = "CASH" | "BANK" | "E_MONEY";
-
-type UpdateWallets = {
-  type: WalletType;
-  name: string;
-  description: string;
-} | undefined;
-
-type Props = {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  id: number
-  updateData: UpdateWallets
-}
-
-export default function EditWalletDialog({open, onOpenChange, id, updateData}: Props) {
-  const [error, setError] = useState<{
-    success: boolean;
-    message: string;
-    errors?: {
-      field: Record<string, string[]>
-    }
-  } | null>(null);
-
-  const route = useRouter()
-  async function handleConfirm() {
-    const updateResult = await updateWallet(updateData, id)
-
-    if (updateResult.success) {
-      route.replace(`/wallets/${id}`)
-    } else {
-      setError(updateResult)
-    }
-  }
+export default function EditWalletDialog({open, onOpenChange, onConfirm}: EditDialog) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -62,7 +23,7 @@ export default function EditWalletDialog({open, onOpenChange, id, updateData}: P
           <DialogClose asChild>
             <Button variant="outline" className="cursor-pointer">Cancel</Button>
           </DialogClose>
-          <Button onClick={handleConfirm} className="cursor-pointer">Submit</Button>
+          <Button onClick={onConfirm} className="cursor-pointer">Submit</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
