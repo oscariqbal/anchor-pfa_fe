@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import viewAllWallets from "./view-all-wallets";
 
 // schemas and types
-import { BaseType } from "./schema";
+import { ViewAllType } from "./schema";
 
 // others
 import Link from "next/link";
@@ -23,8 +23,7 @@ export default async function ViewAllWallets() {
 
   return (
     <div className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-      {result.data && (
-        result.data.map(({ id, type, name, description }: BaseType) => (
+      {result.data.map(({ id, type, name, description }: ViewAllType) => (
           <Link href={`/wallets/${id}`} key={id}>
             <Card className="rounded-md">
               <CardHeader>
@@ -40,7 +39,7 @@ export default async function ViewAllWallets() {
             </Card>
           </Link>
         ))
-      )}
+      }
     </div>
   );
 }

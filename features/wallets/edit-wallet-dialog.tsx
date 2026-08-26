@@ -4,9 +4,11 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
 
-// schema and types
-import { EditDialog } from "./schema";
-
+type EditDialog = {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onConfirm: () => void
+}
 
 export default function EditWalletDialog({open, onOpenChange, onConfirm}: EditDialog) {
 

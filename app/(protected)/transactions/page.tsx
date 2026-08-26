@@ -3,8 +3,9 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, } from "@/c
 import { Separator } from "@/components/ui/separator"
 
 // custom components
-import CreateWalletDialog from "@/features/wallets/create-wallet-dialog";
+import CreateTransactionDialog from "@/features/transactions/create-transaction-dialog";
 import ViewAllTransactions from "@/features/transactions/view-all-transactions-items";
+import viewAllWallets from "@/features/wallets/view-all-wallets";
 
 // others
 import type { Metadata } from "next";
@@ -15,6 +16,14 @@ export const metadata: Metadata = {
 };
 
 export default async function Transactions() {
+  const result = await viewAllWallets()
+
+  if (!result.success) {
+    return (
+      <p>error fetch wallet data</p>
+    )
+  }
+
   return (
     <div className="w-full flex flex-col gap-4">
       <Breadcrumb>
@@ -30,7 +39,7 @@ export default async function Transactions() {
       <section className="w-full flex flex-col gap-4">
         <div className="ml-auto">
           {/* ganti ke component create transaction */}
-          <CreateWalletDialog />
+          <CreateTransactionDialog walletData={result.data}/>
         </div>
         <div>
           <ViewAllTransactions />

@@ -1,5 +1,3 @@
-"use client";
-
 // ui components
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/ui/item"
 import { Separator } from "@/components/ui/separator";
@@ -8,60 +6,37 @@ import { Separator } from "@/components/ui/separator";
 import viewAllTransactions from "./view-all-transactions";
 
 // others
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-export default function ViewAllTransactions() {
-  const [data, setData] = useState<{ 
-    success: boolean;
-    message: string;
-    data?: [
-      {
-        id: number,
-        type: string,
-        amount: string,
-        note: string,
-        time: string,
-        sourceWallet?: {
-          id: number,
-          name: string
-        },
-        destinationWallet?: {
-          id: number,
-          name: string
-        },
-      }
-    ]
-  } | null>(null);
-  const [error, setError] = useState<{ 
-    success: boolean;
-    message: string;
-    errors?: {
-      field: Record<string, string[]>
-    }
-  } | null>(null);
+type ViewAllType = {
+  id: number,
+  type: string,
+  amount: string,
+  note: string,
+  time: string,
+  sourceWallet?: {
+    id: number,
+    name: string
+  },
+  destinationWallet?: {
+    id: number,
+    name: string
+  },
+}
 
-  useEffect(() => {
-    async function result () {
-      const result = await viewAllTransactions()
+export default async function ViewAllTransactions() {
+  const result = await viewAllTransactions()
       
-      if (result.success) {
-        setData(result)
-      } else {
-        setError(result)
-      }
-    }
-
-    result()
-  }, [])
-
-  console.log(data)
+  if (!result.success) {
+    return (
+      <p>error</p>
+    )
+  }
 
   return (
     <div>
-      {data?.data && (
-        data.data.map(({ id, type, amount, note, time, sourceWallet, destinationWallet }) => (
+      {result.data.map(({ id, type, amount, note, time, sourceWallet, destinationWallet }: ViewAllType) => (
           <div key={id}>
             <Link href={`/transactions/${id}`}>
               <Item size="sm">
@@ -89,7 +64,7 @@ export default function ViewAllTransactions() {
             <Separator />
           </div>
         ))
-      )}
+      }
     </div>
   );
 }

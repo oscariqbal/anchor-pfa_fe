@@ -6,11 +6,7 @@ export type EnumType = z.infer<typeof enumWalletSchema>;
 
 // === Body ===
 
-export const baseSchema = z.object({
-  id: z
-    .number()
-    .int()
-    .positive(),
+export const createSchema = z.object({
   type: enumWalletSchema,
   name: z
     .string()
@@ -23,27 +19,19 @@ export const baseSchema = z.object({
     .optional(),
 })
 
-export const createSchema = baseSchema.omit({
-  id: true,
-})
-
 export const updateSchema = createSchema.partial()
-
-export const getSchema = z.object({
-  data: baseSchema
-})
-
-export const getListSchema = z.object({
-  data: z.array(baseSchema)
-})
 
 // === Types ===
 
-export type BaseType = z.infer<typeof baseSchema>;
 export type CreateType = z.infer<typeof createSchema>;
 export type UpdateType = z.infer<typeof updateSchema>
-export type GetType = z.infer<typeof getSchema>;
-export type GetListType = z.infer<typeof getListSchema>;
+export type ViewAllType = {
+  id: number,
+  type: string,
+  name: string,
+  description: string,
+  balance: string
+}
 
 // === Props Types ===
 
@@ -51,10 +39,4 @@ export type Params = {
   params: Promise<{
     id:number
   }>,
-}
-
-export type EditDialog = {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  onConfirm: () => void
 }

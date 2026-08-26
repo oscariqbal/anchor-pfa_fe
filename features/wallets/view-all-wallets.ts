@@ -4,10 +4,10 @@ export default async function viewAllWallets() {
   const cookieStore = await cookies();
   try {
     const response = await fetch("http://localhost:5555/api/wallets", {
+      method: "GET",
       headers: {
         Cookie: cookieStore.toString(),
       },
-      method: "GET",
       cache: "no-store"
     });
 

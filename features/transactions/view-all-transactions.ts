@@ -1,7 +1,13 @@
+import { cookies } from "next/headers";
+
 export default async function viewAllTransactions() {
+  const cookieStore = await cookies();
   try {
     const response = await fetch("http://localhost:5555/api/transactions", {
       method: "GET",
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
       credentials: "include",
     });
 
