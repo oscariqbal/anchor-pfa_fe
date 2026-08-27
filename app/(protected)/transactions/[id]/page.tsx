@@ -1,5 +1,6 @@
 // custom components
 import ViewTransaction  from "@/features/transactions/view-transaction-card";
+import ActionDropdown from "@/features/transactions/action-dropdown";
 
 // schema and types
 import { Params } from "@/features/transactions/schema";
@@ -14,10 +15,13 @@ export const metadata: Metadata = {
 export default async function Transaction({params}: Params) {
   const { id } = await params;
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
+      <section className="flex">
+        <ActionDropdown id={id} className="ml-auto"/>
+      </section>
       <section className="w-full">
         <ViewTransaction id={id} />
       </section>
     </div>
-  );
-};
+  )
+}

@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { Button } from "@/components/ui/button"
 
 // custom components
-import DestroyWalletDialog from "./destroy-wallet-dialog";
+// import DestroyWalletDialog from "./destroy-transaction-dialog";
 
 // icons
 import { EllipsisVertical, SquarePen, Trash } from 'lucide-react';
@@ -28,7 +28,7 @@ export default function ActionDropdown ({id, className}: {id: number, className?
         <DropdownMenuContent className="w-full">
           <DropdownMenuGroup>
             <DropdownMenuItem className="cursor-pointer" asChild>
-              <Link href={`/wallets/${id}/edit`}>
+              <Link href={`/transactions/${id}/edit`}>
                 <SquarePen />
                 Edit
               </Link>
@@ -40,7 +40,7 @@ export default function ActionDropdown ({id, className}: {id: number, className?
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DestroyWalletDialog open={deleteOpen} onOpenChange={setDeleteOpen} id={id} />
+      {/* <DestroyWalletDialog open={deleteOpen} onOpenChange={setDeleteOpen} id={id} /> */}
     </div>
   )
 }

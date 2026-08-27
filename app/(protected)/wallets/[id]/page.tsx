@@ -15,8 +15,10 @@ export const metadata: Metadata = {
 export default async function Wallet({params}: Params) {
   const { id } = await params;
   return (
-    <div className="w-full flex flex-col gap-4">
-      <ActionDropdown id={id} />
+    <div className="flex flex-col gap-4">
+      <section className="flex">
+        <ActionDropdown id={id} className="ml-auto"/>
+      </section>
       <section className="w-full">
         <ViewWallet id={id} />
       </section>
