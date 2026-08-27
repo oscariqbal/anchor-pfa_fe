@@ -2,7 +2,7 @@
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
-import destroyWallet from "./destroy-wallet"
+import destroyTransaction from "./destroy-transaction"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -12,7 +12,7 @@ type Props = {
   id: number
 }
 
-export default function DestroyWalletDialog({open, onOpenChange, id }: Props) {
+export default function DestroyTransactionDialog({open, onOpenChange, id }: Props) {
   const [error, setError] = useState<{
     success: boolean;
     message: string;
@@ -24,10 +24,10 @@ export default function DestroyWalletDialog({open, onOpenChange, id }: Props) {
   const route = useRouter()
 
   async function handleSubmit() {
-    const result = await destroyWallet(id)
+    const result = await destroyTransaction(id)
 
     if (result.success) {
-      route.replace(`/wallets`)
+      route.replace(`/transactions`)
     } else {
       setError(result)
     }
@@ -39,8 +39,8 @@ export default function DestroyWalletDialog({open, onOpenChange, id }: Props) {
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. xxx transactions will be permanently destroyed. 
-            </DialogDescription>
+            This action cannot be undone. 
+          </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>

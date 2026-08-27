@@ -1,6 +1,6 @@
 export default async function destroyWallet (id: number) {
   try {
-    const response = await fetch(`http://localhost:5555/api/wallets/${id}`, {
+    const response = await fetch(`http://localhost:5555/api/transactions/${id}`, {
       method: "DELETE",
       credentials: "include"
     });
