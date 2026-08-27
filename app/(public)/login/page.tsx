@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 export default function Login() {
   return (
-    <div className="w-[90vw] sm:w-[88vw] md:w-[86vw] lg:w-[84vw] flex flex-col mx-auto">
-      <section className="h-[90vh] w-full p-2 flex items-center justify-center">
+    <div className="flex flex-col mx-auto">
+      <section className="h-[80vh] flex items-center justify-center">
         <LoginForm />
       </section>
     </div>

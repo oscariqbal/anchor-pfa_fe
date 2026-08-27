@@ -40,7 +40,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <Card className="w-100">
+    <Card className="w-80 md:w-100">
       <CardContent>
         <FieldSet>
           <FieldLegend>Create an Account</FieldLegend>
@@ -49,15 +49,15 @@ export default function RegisterForm() {
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="name">Name</FieldLabel>
-                <Input name="name" id="name" type="text" placeholder="John" required />
+                <Input className="text-sm md:text-base" name="name" id="name" type="text" placeholder="John" required />
               </Field>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input name="email" id="email" type="email" placeholder="john@example.com" required />
+                <Input className="text-sm md:text-base" name="email" id="email" type="email" placeholder="john@example.com" required />
               </Field>
               <Field>
                 <FieldLabel htmlFor="password">Password</FieldLabel>
-                <Input name="password" id="password" type="password" placeholder="••••••••" required />
+                <Input className="text-sm md:text-base" name="password" id="password" type="password" placeholder="••••••••" required />
               </Field>
               {error && (
                 <div>

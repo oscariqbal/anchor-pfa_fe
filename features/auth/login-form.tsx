@@ -39,7 +39,7 @@ export default function LoginForm() {
   };
 
   return (
-    <Card className="w-100">
+    <Card className="w-80 md:w-100">
       <CardContent>
         <FieldSet>
           <FieldLegend>Sign In</FieldLegend>
@@ -48,24 +48,13 @@ export default function LoginForm() {
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input name="email" id="email" type="email" placeholder="john@example.com" required />
+                <Input className="text-sm md:text-base" name="email" id="email" type="email" placeholder="john@example.com" required />
               </Field>
               <Field>
                 <FieldLabel htmlFor="password">
                   Password
                 </FieldLabel>
-                <Input name="password" id="password" type="password" placeholder="••••••••" required />
-                <div className="flex">
-                  <div className="w-1/2 flex items-start gap-2">
-                    <Input type="checkbox" id="remember" name="remember" className="border border-yellow-500 w-4 h-4"/>
-                    <FieldLabel htmlFor="remember" className="text-xs">
-                      Remember me
-                    </FieldLabel>
-                  </div>
-                  <FieldLabel htmlFor="forgot-password" className="w-1/2 flex justify-end">
-                    <a href="#" className="text-sm underline-offset-4 hover:underline text-xs">Forgot your password?</a>
-                  </FieldLabel>
-                </div>
+                <Input className="text-sm md:text-base" name="password" id="password" type="password" placeholder="••••••••" required />
               </Field>
               {error && (
                 <div>

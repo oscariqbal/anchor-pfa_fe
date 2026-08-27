@@ -26,5 +26,5 @@ export default async function PublicLayout({ children } : { children: React.Reac
       {children}
       <FooterPublic />
     </>
-  );
+  )
 }
