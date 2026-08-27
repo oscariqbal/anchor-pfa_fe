@@ -37,3 +37,11 @@ export const updateSchema = createSchema.partial().strict()
 
 export type CreateType = z.infer<typeof createSchema>;
 export type UpdateType = z.infer<typeof updateSchema>;
+
+// === Props Types ===
+
+export type Params = {
+  params: Promise<{
+    id:number
+  }>,
+}

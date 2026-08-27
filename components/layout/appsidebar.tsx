@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Sidebar,
   SidebarContent,
@@ -7,48 +9,65 @@ import {
   SidebarRail,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarTrigger
 } from "@/components/ui/sidebar"
+import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible"
 import AnchorIcon from "@/public/icon/anchor";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { ChevronDown, House, Wallet, ArrowLeftRight } from "lucide-react";
 
 export default function AppSidebar() {
   return (
-    <Sidebar>
-      <SidebarHeader className="p-4">
-        <Button variant={"ghost"} size={"sm"} className="hover:bg-transparent dark:hover:bg-transparent hover:text-primary" asChild>
-          <Link href='/dashboard'>
-            <AnchorIcon className="h-5 md:h-6 text-primary" />
-          </Link>
-        </Button>
+    <Sidebar collapsible="icon">
+      <SidebarHeader className="flex flex-row">
+        <SidebarTrigger className="group-data-[state=collapsed]:flex [&_svg]:size-4 cursor-pointer"/>
+        <div className="my-auto group-data-[state=collapsed]:hidden">
+          <AnchorIcon className="h-4" />
+        </div>
       </SidebarHeader>
       <Separator />
       <SidebarContent>
+        <Collapsible defaultOpen className="group/collapsible">
           <SidebarGroup>
-            <SidebarGroupLabel>General</SidebarGroupLabel>
-            <SidebarGroupContent></SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/dashboard">Dashboard</Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/wallets">Wallets</Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/transactions">Transactions</Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
+            <SidebarGroupLabel asChild>
+              <CollapsibleTrigger>
+                General
+                <ChevronDown className="ml-auto transition-transform group-data-open/collapsible:rotate-180" />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenuItem>
+                  <SidebarMenuButton>
+                    <Link href="/dashboard" className="flex w-full items-center gap-4">
+                      <House/>
+                        <p>Dashboard</p>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton>
+                    <Link href="/wallets" className="flex w-full items-center gap-4">
+                      <Wallet />
+                       <p>Wallets</p>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton>
+                    <Link href="/transactions" className="flex w-full items-center gap-4">
+                      <ArrowLeftRight />
+                       <p>Transactions</p>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarGroupContent>
+            </CollapsibleContent>
           </SidebarGroup>
+        </Collapsible>
       </SidebarContent>
       <Separator />
       <SidebarFooter className="flex items-center justify-center text-xs opacity-50">

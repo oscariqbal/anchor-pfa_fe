@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button";
 
-// api
+// APIs
 import createWallet from "@/features/wallets/create-wallet"
 
 // schemas and types
@@ -75,19 +75,19 @@ export default function CreateWalletDialog() {
               <Label htmlFor="type">Type</Label>
               <Controller name="type" control={control} render={({field}) => (
                 <Select value={field.value} onValueChange={field.onChange} >
-                <SelectTrigger className="cursor-pointer">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {enumWallet.map((option) => (
-                    <SelectItem key={option} value={option} className="cursor-pointer">
-                      {option}
-                    </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+                  <SelectTrigger className="cursor-pointer">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {enumWallet.map((option) => (
+                      <SelectItem key={option} value={option} className="cursor-pointer">
+                        {option}
+                      </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               )} />
               {errors.type && (
                 <p className="text-red-400">{errors.type.message}</p>

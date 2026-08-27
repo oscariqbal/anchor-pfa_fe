@@ -1,97 +1,91 @@
 'use client'
 
 // ui components
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
-import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "@/components/ui/select";
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "@/components/ui/select"
 import { Field, FieldGroup } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 
-// api
-import createTransaction from "@/features/transactions/create-transaction"
+// custom components
+import EditTransactionDialog from "./edit-transaction-dialog"
+
+// APIs
+import updateTransaction from "./edit-transaction"
 
 // schemas and types
-import { createSchema, CreateType, enumTransaction } from "@/features/transactions/schema";
+import { updateSchema, UpdateType, enumTransaction } from "@/features/transactions/schema";
 import { ViewAllType } from "@/features/wallets/schema";
 
 // others
-import { Controller, useForm, FieldErrors } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { applyFieldErrors } from "@/helpers/applyFieldErrors";
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"
+import Link from "next/link";
 
-export default function CreateTransactionDialog({walletData}: {walletData: ViewAllType[]}) {
+export default function EditTransactionCard({id, wallets, oldTransaction}: {id: number, wallets: ViewAllType[], oldTransaction: UpdateType}) {
   const [openDialog, setOpenDialog] = useState(false)
-  const {register, handleSubmit, control, watch, formState: {errors}, setError, reset, resetField} = useForm<CreateType>({
-    resolver: zodResolver(createSchema),
+  const [formData, setFormData] = useState<UpdateType | null>(null)
+
+  const route = useRouter();
+  
+  const {register, handleSubmit, control, watch, formState: {errors}, setError, reset, resetField} = useForm<UpdateType>({
+    resolver: zodResolver(updateSchema),
     defaultValues: {
-      type: "",
-      amount: 0,
-      note: "",
-      time: "",
-      sourceWalletId: undefined,
-      destinationWalletId: undefined,
+      type: oldTransaction.type,
+      amount: oldTransaction.amount,
+      note: oldTransaction.note,
+      time: oldTransaction.time,
+      sourceWalletId: oldTransaction.sourceWalletId,
+      destinationWalletId: oldTransaction.destinationWalletId,
     }
   });
-  
+
   const type = watch("type");
 
   useEffect(() => {
     if (type === "INCOME") {
-      resetField("sourceWalletId");
+      resetField("sourceWalletId", {defaultValue: undefined});
     }
 
     if (type === "EXPENSE") {
-      resetField("destinationWalletId");
+      resetField("destinationWalletId", {defaultValue: undefined});
     }
   }, [type, resetField])
 
-  const route = useRouter();
-  
-  async function onSubmit (data: CreateType) {
-    console.log("sdaw")
-    const result = await createTransaction(data)
-    console.log(result)
+  function onSubmit (data: UpdateType) {
+    setFormData(data)
+    setOpenDialog(true)
+  };
 
-    if (result.success) {
+  async function handleConfirm () {
+    if (!formData) return
+    const updateResult = await updateTransaction(formData, id)
+    
+    if (updateResult.success) {
       reset()
       setOpenDialog(false)
-      route.refresh()
+      route.replace(`/transactions/${id}`)
     } else {
-      if (result.errors.field) {
-        applyFieldErrors(result.errors.field, setError) // type assertion issue here
+      if (updateResult.errors.field) {
+        applyFieldErrors(updateResult.errors.field, setError) // type assertion issue here
       }
-      if (result.errors?.general) {
+      if (updateResult.errors?.general) {
         setError("root.serverError", {
           type: "server",
-          message: result.errors.general,
+          message: updateResult.errors.general,
         });
       }
     }
   }
 
-  function onError(errors: FieldErrors<CreateType>) {
-    console.log("ERROR", errors);
-    console.log("sourceWalletId", watch("sourceWalletId"));
-  }
-
   return (
-    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="cursor-pointer">
-          Create
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-sm">
-        <form onSubmit={handleSubmit(onSubmit, onError)} className="flex flex-col gap-6">
-          <DialogHeader>
-            <DialogTitle className="text-base">Create Transaction</DialogTitle>
-            <DialogDescription>
-              Create your transaction
-            </DialogDescription>
-          </DialogHeader>
+    <Card>
+      <form id="update-transaction" onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+        <CardContent>
           <FieldGroup>
             <Field>
               <Label htmlFor="type">Type</Label>
@@ -145,7 +139,7 @@ export default function CreateTransactionDialog({walletData}: {walletData: ViewA
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {walletData?.map(({id, type, name, balance}) => (
+                      {wallets?.map(({id, type, name, balance}) => (
                       <SelectItem key={id} value={id.toString()} className="cursor-pointer">
                         ({type}) - {name} - {balance}
                       </SelectItem>
@@ -167,7 +161,7 @@ export default function CreateTransactionDialog({walletData}: {walletData: ViewA
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {walletData?.map(({id, type, name, balance}) => (
+                      {wallets?.map(({id, type, name, balance}) => (
                       <SelectItem key={id} value={id.toString()} className="cursor-pointer">
                         ({type}) - {name} - {balance}
                       </SelectItem>
@@ -184,14 +178,17 @@ export default function CreateTransactionDialog({walletData}: {walletData: ViewA
           {errors.root?.serverError && (
             <p className="text-red-400">{errors.root.serverError.message}</p>
           )}
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline" className="cursor-pointer">Cancel</Button>
-            </DialogClose>
-            <Button type="submit" className="cursor-pointer">Submit</Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+        </CardContent>
+        <CardFooter className="flex ml-auto gap-2">
+          <Button variant={"outline"} asChild className="cursor-pointer">
+            <Link href={`/transactions/${id}`}>
+              Cancel
+            </Link>
+          </Button>
+          <Button type="submit" className="cursor-pointer">Submit</Button>
+        </CardFooter>
+      </form>
+      <EditTransactionDialog open={openDialog} onOpenChange={setOpenDialog} onConfirm={handleConfirm} />
+    </Card>
   );
 }

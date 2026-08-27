@@ -11,11 +11,11 @@ import { Button } from "@/components/ui/button"
 // custom components
 import EditWalletDialog from "./edit-wallet-dialog"
 
-// api
+// APIs
 import viewWallet from "./view-wallet";
 import updateWallet from "./edit-wallet"
 
-// schema and types
+// schemas and types
 import { updateSchema, UpdateType, enumWallet } from "@/features/wallets/schema";
 
 // others
@@ -26,7 +26,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link";
 
-export default function EditWalletCard({ id }: Record<string, number>) {
+export default function EditWalletCard({id, oldWallet}: {id: number, oldWallet: UpdateType}) {
   const [openDialog, setOpenDialog] = useState(false)
   const [formData, setFormData] = useState<UpdateType | null>(null)
 
@@ -35,32 +35,11 @@ export default function EditWalletCard({ id }: Record<string, number>) {
   const {register, handleSubmit, control, formState: {errors}, setError, reset} = useForm<UpdateType>({
     resolver: zodResolver(updateSchema),
     defaultValues: {
-      type: "",
-      name: "",
-      description: ""
+      type: oldWallet.type,
+      name: oldWallet.name,
+      description: oldWallet.description,
     }
   });
-  
-  useEffect(() => {
-    async function getWallet() {
-      const result = await viewWallet(id)
-
-      if (!result.success) {
-        return (
-          <p>error fetch prefill data</p>
-        )
-      }
-
-      reset({
-        name: result.data.name,
-        type: result.data.type,
-        description: result.data.description,
-      });
-    }
-
-    getWallet();
-  }, []);
-
 
   function onSubmit (data: UpdateType) {
     setFormData(data)
@@ -136,7 +115,7 @@ export default function EditWalletCard({ id }: Record<string, number>) {
         </CardContent>
         <CardFooter className="flex ml-auto gap-2">
           <Button variant={"outline"} asChild className="cursor-pointer">
-            <Link href={`/wallets/${id}/edit`}>
+            <Link href={`/wallets/${id}/`}>
               Cancel
             </Link>
           </Button>

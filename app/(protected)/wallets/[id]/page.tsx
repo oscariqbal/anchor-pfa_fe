@@ -1,16 +1,12 @@
-// ui components
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator, } from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
-
 // custom components
 import ViewWallet  from "@/features/wallets/view-wallet-card";
+import ActionDropdown from "@/features/wallets/action-dropdown";
 
 // schema and types
 import { Params } from "@/features/wallets/schema";
 
 // others
 import type { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Wallet Details",
@@ -20,22 +16,7 @@ export default async function Wallet({params}: Params) {
   const { id } = await params;
   return (
     <div className="w-full flex flex-col gap-4">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/wallets">Wallets</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href={`/wallets/${id}`}>Details</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-      <Separator />
+      <ActionDropdown id={id} />
       <section className="w-full">
         <ViewWallet id={id} />
       </section>

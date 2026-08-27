@@ -1,13 +1,15 @@
-import { cookies } from "next/headers";
+// others
+import { UpdateType } from "./schema";
 
-export default async function viewWallet(id: number) {
-  const cookieStore = await cookies();
+export default async function updateTransaction (data: UpdateType, id: number) {
   try {
-    const response = await fetch(`http://localhost:5555/api/wallets/${id}`, {
-      method: "GET",
+    const response = await fetch(`http://localhost:5555/api/transactions/${id}`, {
+      method: "PATCH",
       headers: {
-        Cookie: cookieStore.toString(),
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify(data),
+      credentials: "include"
     });
 
     const body = await response.json()

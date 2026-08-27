@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 // custom components
 // import DestroyWalletDialog from "./destroy-wallet-dialog";
 
-// api
+// APIs
 import viewTransaction from "./view-transaction";
 
 // icons
@@ -77,7 +77,7 @@ export default function ViewTransaction({id}: {id: number}) {
                 <DropdownMenuContent className="w-full">
                   <DropdownMenuGroup>
                     <DropdownMenuItem className="cursor-pointer" asChild>
-                      <Link href={`/wallets/${id}/edit`}>
+                      <Link href={`/transactions/${id}/edit`}>
                         <SquarePen />
                         Edit
                       </Link>

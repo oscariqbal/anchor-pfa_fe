@@ -1,11 +1,10 @@
-// ui components
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator, } from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
-
 // custom components
 import EditWalletCard  from "@/features/wallets/edit-wallet-card";
 
-// schema and types
+// APIs
+import viewWallet from "@/features/wallets/view-wallet";
+
+// schemas and types
 import { Params } from "@/features/wallets/schema";
 
 // others
@@ -18,32 +17,20 @@ export const metadata: Metadata = {
 
 export default async function WalletEdit({ params }: Params) {
   const { id } = await params;
+
+  const oldWallet = await viewWallet(id)
+
+  if (!oldWallet.success) {
+    console.log(oldWallet)
+    return (
+      <p>error fetch prefill data</p>
+    )
+  }
+
   return (
     <div className="w-full flex flex-col gap-4">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/wallets">Wallets</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href={`/wallets/${id}`}>Details</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href={`/wallets/${id}/edit`}>Edit</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-      <Separator />
       <section className="w-full">
-        <EditWalletCard id={id} />
+        <EditWalletCard id={id} oldWallet={oldWallet.data}/>
       </section>
     </div>
   );
