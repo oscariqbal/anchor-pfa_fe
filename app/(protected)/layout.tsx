@@ -3,7 +3,7 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator";
 
 // layout components
-import AppSidebar from "@/components/layout/appsidebar";
+import AppSidebar from "@/app/(protected)/appsidebar";
 
 // custom components
 import HeaderProtected from "@/app/(protected)/header";
@@ -29,10 +29,12 @@ export default async function ProtectedLayout({ children }: { children: React.Re
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="w-full p-4 flex flex-col gap-4">
+      <main className="w-full">
         <HeaderProtected />
         <Separator />
-        {children}
+        <div className="p-4">
+          {children}
+        </div>
       </main>
     </SidebarProvider>
   );
