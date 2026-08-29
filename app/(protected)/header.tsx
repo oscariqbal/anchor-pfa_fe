@@ -2,6 +2,7 @@
 
 // ui components
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator} from "@/components/ui/breadcrumb"
+import { SidebarTrigger } from "@/components/ui/sidebar"
 
 // others
 import { usePathname } from "next/navigation"
@@ -12,7 +13,8 @@ export default function HeaderProtected(){
   const segments = pathname.split("/").filter(Boolean)
 
   return (
-    <header className="h-[3rem] px-4 w-full flex items-center justify-between">
+    <header className="h-[3rem] px-4 w-full flex items-center gap-2">
+      <SidebarTrigger className="block md:hidden h-10 cursor-pointer group-data-[state=collapsed]:flex [&_svg]:size-6"/>
       <Breadcrumb>
         <BreadcrumbList>
           {segments.map((segment, index) => {

@@ -15,7 +15,7 @@ export default async function ViewWallet({id}: {id: number}) {
   }
 
   return (
-    <Card>
+    <Card className="bg-transparent">
       <CardHeader>
         <CardTitle className="flex gap-4 items-center">
           {result.data.name}
@@ -27,8 +27,9 @@ export default async function ViewWallet({id}: {id: number}) {
           {result.data.description}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        ~ balance ~
+      <CardContent className="text-lg md:text-xl flex justify-between">
+        <p>Rp.</p>
+        <p className="font-bold">{result.data.balance}</p>
       </CardContent>
     </Card>
   );

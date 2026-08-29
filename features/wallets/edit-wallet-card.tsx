@@ -68,7 +68,7 @@ export default function EditWalletCard({id, oldWallet}: {id: number, oldWallet: 
   }
 
   return (
-    <Card>
+    <Card className="bg-transparent">
       <form id="update-wallet" onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
         <CardContent>
           <FieldGroup>
