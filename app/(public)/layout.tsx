@@ -17,7 +17,7 @@ export default async function PublicLayout({ children } : { children: React.Reac
   });
 
   if (response.ok) {
-    redirect("/dashboard")
+    redirect("/overview")
   }
 
   return (

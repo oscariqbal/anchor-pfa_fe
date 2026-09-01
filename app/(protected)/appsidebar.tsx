@@ -80,10 +80,10 @@ export default function AppSidebar() {
         <SidebarGroup className="mt-2 p-0">
           <SidebarGroupContent className="flex flex-col gap-2 group-data-[state=collapsed]flex group-data-[state=collapsed]:flex-col group-data-[state=collapsed]:gap-6">
             <SidebarMenuItem>
-              <Link href="/dashboard">
+              <Link href="/overview">
                 <SidebarMenuButton className="p-3 gap-4 [&_svg]:size-6 group-data-[state=collapsed]:mt-2 group-data-[state=collapsed]:mx-auto">
                   <House />
-                  <span>Dashboard</span>
+                  <span>Overview</span>
                 </SidebarMenuButton>
               </Link>
             </SidebarMenuItem>
