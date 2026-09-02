@@ -1,7 +1,7 @@
- import { LoginReqType } from "./schema";
- import { ReturnTypes } from "@/types/return";
+import { LoginReqType } from "./schema";
+import { ReturnTypes } from "@/types/return";
  
- export default async function login (data: LoginReqType): Promise<ReturnTypes> {
+export default async function login (data: LoginReqType): Promise<ReturnTypes> {
   try {
     const response = await fetch("http://localhost:5555/api/auth/login", {
       method: "POST",

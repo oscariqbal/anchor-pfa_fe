@@ -51,7 +51,7 @@ export default function LoginForm() {
   }
 
   return (
-    <Card className="w-80 md:w-100">
+    <Card className="w-100 bg-transparent border-none shadow-none ring-0">
       <CardContent>
         <FieldSet>
           <FieldLegend>Sign In</FieldLegend>

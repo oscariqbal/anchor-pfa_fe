@@ -1,6 +1,7 @@
 import { RegisterReqType } from "./schema";
+import { ReturnTypes } from "@/types/return";
 
-export default async function register (data: RegisterReqType) {
+export default async function regist (data: RegisterReqType): Promise<ReturnTypes> {
   try {
     const response = await fetch(`http://localhost:5555/api/auth/register`, {
       method: "POST",
@@ -28,7 +29,8 @@ export default async function register (data: RegisterReqType) {
   } catch (error) {
     return {
       success: false,
-      message: "Network error"
+      message: "Network error",
+      errors: {general: ["Network error"]}
     }
   }
 }
