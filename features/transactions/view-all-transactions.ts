@@ -1,9 +1,9 @@
 import { cookies } from "next/headers";
 
-export default async function viewAllTransactions() {
+export default async function viewAllTransactions(query?: string) {
   const cookieStore = await cookies();
   try {
-    const response = await fetch("http://localhost:5555/api/transactions", {
+    const response = await fetch(`http://localhost:5555/api/transactions/${query}`, {
       method: "GET",
       headers: {
         Cookie: cookieStore.toString(),

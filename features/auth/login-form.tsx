@@ -32,7 +32,7 @@ export default function LoginForm() {
     const result = await login(data)
 
     if (result.success) {
-      route.replace("/dashboard");
+      route.replace("/overview");
     } else {
       setError(result)
     }

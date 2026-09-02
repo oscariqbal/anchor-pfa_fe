@@ -1,6 +1,9 @@
 // ui components
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardAction } from "@/components/ui/card"
-import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "@/components/ui/select";
+import { Card, CardContent, CardHeader, CardDescription, } from "@/components/ui/card"
+
+// custom components
+import PeriodicSummary from "@/features/overview/periodic-summary-section"
+import CreateTransactionDialog from "@/features/transactions/create-transaction-dialog";
 
 // api
 import viewAllWallets from "@/features/wallets/view-all-wallets";
@@ -9,7 +12,7 @@ import viewAllWallets from "@/features/wallets/view-all-wallets";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
+  title: "Overview",
 };
 
 export default async function Overview() {
@@ -24,7 +27,7 @@ export default async function Overview() {
   const total = result.data.reduce((sum, item) => sum + Number(item.balance), 0)
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <section>
         <Card className="rounded-md" size="sm">
           <CardHeader>
@@ -38,14 +41,8 @@ export default async function Overview() {
           </CardContent>
         </Card>
       </section>
-      {/* CASH FLOW DI RENTANG WAKTU TERTENTU */}
-      {/* PERBANDINGAN CASH FLOW DI RENTANG WAKTU TERTENTU DENGAN RENTANG WAKTU SEBELUMNYA*/}
-      {/* INCOME DI RENTANG WAKTU TERTENTU */}
-      {/* PERBANDINGAN INCOME DI RENTANG WAKTU TERTENTU DENGAN RENTANG WAKTU SEBELUMNYA */}
-      {/* EXPENSE DI RENTANG WAKTU TERTENTU */}
-      {/* PERBANDINGAN EXPENSE DI RENTANG WAKTU TERTENTU DENGAN RENTANG WAKTU SEBELUMNYA */}
-      {/* LATEST TRANSACTION */}
-      {/* BUTTON ADD TRANSACTION */}
+      <PeriodicSummary />
+      <CreateTransactionDialog walletData={result.data}/>
     </div>
   );
 };
