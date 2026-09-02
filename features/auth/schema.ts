@@ -1,12 +1,8 @@
 import { z } from "zod";
 
-// === Params ===
+// === Request ===
 
-// === Query ===
-
-// === Body ===
-
-export const registerSchema = z.object({
+export const registerReqSchema = z.object({
   name: z
     .string("Account name must be a string")
     .trim()
@@ -21,16 +17,18 @@ export const registerSchema = z.object({
     .regex(/\d/, "Password must contain at least one number"),
 }).strict()
 
-export const loginSchema = registerSchema.omit({
+export const loginReqSchema = registerReqSchema.omit({
   name: true
 }).strict()
 
-export const getSchema = registerSchema.omit({
+// === Response ===
+
+export const getResSchema = registerReqSchema.omit({
   password: true
 }).strict()
 
 // === Types ===
 
-export type RegisterType = z.infer<typeof registerSchema>;
-export type LoginType = z.infer<typeof loginSchema>;
-export type GetType = z.infer<typeof getSchema>;
+export type RegisterReqType = z.infer<typeof registerReqSchema>;
+export type LoginReqType = z.infer<typeof loginReqSchema>;
+export type GetResType = z.infer<typeof getResSchema>;

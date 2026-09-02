@@ -3,6 +3,7 @@ import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "next-themes"
+import { Toaster } from "@/components/ui/sonner"
 
 const inter = Inter({subsets:['latin'],variable:'--font-inter'});
 const manrope = Manrope({subsets:['latin'],variable:'--font-manrope'});
@@ -28,6 +29,7 @@ export default function RootLayout({
           <main>
             {children}
           </main>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

@@ -1,42 +1,54 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import Link from "next/link";
-import login from "./login"
+// ui components
 import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet, } from "@/components/ui/field"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner"
+import { toast } from "sonner"
+
+// APIs
+import login from "@/features/auth/login"
+
+// schemas and types
+import { loginReqSchema, LoginReqType } from "@/features/auth/schema"
+
+// others
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { applyFieldErrors } from "@/helpers/applyFieldErrors";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginForm() {
   const route = useRouter();
-  const [error, setError] = useState<{ 
-    success: boolean;
-    message: string;
-    errors?: {
-      field: Record<string, string[]>
+
+  const {register, handleSubmit, formState: {errors, isSubmitting}, setError} = useForm<LoginReqType>({
+    resolver: zodResolver(loginReqSchema),
+    mode: "onChange",
+    defaultValues: {
+      email: "",
+      password: ""
     }
-  } | null>(null);
+  })
 
-  async function handleSubmit (e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-
-    const data = {
-      email: formData.get("email") as string,
-      password: formData.get("password") as string,
-    }
-
+  async function onSubmit (data: LoginReqType) {
     const result = await login(data)
-
+  
     if (result.success) {
-      route.replace("/overview");
+      route.replace("/overview")
     } else {
-      setError(result)
+      if (result.errors.field) {
+        applyFieldErrors(result.errors.field, setError) // type assertion issue here
+      }
+      if (result.errors.general) {
+        setError("root.serverError", {
+          message: result.errors.general[0],
+        })
+      }
     }
-  };
+  }
 
   return (
     <Card className="w-80 md:w-100">
@@ -44,33 +56,30 @@ export default function LoginForm() {
         <FieldSet>
           <FieldLegend>Sign In</FieldLegend>
           <FieldDescription>Enter your email and password below</FieldDescription>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input className="text-sm md:text-base" name="email" id="email" type="email" placeholder="john@example.com" required />
+                <Input {...register("email")} name="email" id="email" type="email" placeholder="john@example.com" />
+                {errors.email && (
+                  <p className="text-red-400">{errors.email.message}</p>
+                )}
               </Field>
               <Field>
-                <FieldLabel htmlFor="password">
-                  Password
-                </FieldLabel>
-                <Input className="text-sm md:text-base" name="password" id="password" type="password" placeholder="••••••••" required />
+                <FieldLabel htmlFor="password">Password</FieldLabel>
+                <Input {...register("password")} name="password" id="password" type="password" placeholder="••••••••"/>
+                {errors.password && (
+                  <p className="text-red-400">{errors.password.message}</p>
+                )}
               </Field>
-              {error && (
-                <div>
-                  <p className="mb-4 text-red-500">{error.message}</p>
-                  {error.errors && (
-                    Object.entries(error.errors.field).map(([field, messages]) => (
-                    <div key={field}>
-                      {messages.map((message) => (
-                        <p key={message} className="text-red-500">{message}</p>
-                      ))}
-                    </div>
-                  )))}
-                </div>
-              )}
               <Field>
-                <Button type="submit" className="w-full cursor-pointer">Sign In</Button>
+                <Button type="submit" className="w-full cursor-pointer" disabled={isSubmitting} onClick={
+                  errors.root?.serverError
+                    ? () => toast.error(errors.root?.serverError.message, {position: "top-center"})
+                    : undefined
+                }>
+                  {isSubmitting ? <Spinner /> : "Sign In"}
+                </Button>
               </Field>
               <Field orientation="horizontal" className="flex justify-center">
                 <p className="opacity-70">Didn't have an account?</p>

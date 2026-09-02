@@ -1,6 +1,7 @@
- import { LoginType } from "./schema";
+ import { LoginReqType } from "./schema";
+ import { ReturnTypes } from "@/types/return";
  
- export default async function login (data: LoginType) {
+ export default async function login (data: LoginReqType): Promise<ReturnTypes> {
   try {
     const response = await fetch("http://localhost:5555/api/auth/login", {
       method: "POST",
@@ -29,7 +30,8 @@
   } catch (error) {
     return {
       success: false,
-      message: "Network error"
+      message: "Network error",
+      errors: {general: ["Network error"]}
     }
   }
 }

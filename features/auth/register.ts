@@ -1,6 +1,6 @@
-import { RegisterType } from "./schema";
+import { RegisterReqType } from "./schema";
 
-export default async function register (data: RegisterType) {
+export default async function register (data: RegisterReqType) {
   try {
     const response = await fetch(`http://localhost:5555/api/auth/register`, {
       method: "POST",

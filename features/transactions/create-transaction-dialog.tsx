@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button";
 
-// api
+// APIs
 import createTransaction from "@/features/transactions/create-transaction"
 
 // schemas and types
@@ -23,6 +23,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation";
 
 export default function CreateTransactionDialog({walletData}: {walletData: ViewAllType[]}) {
+  const route = useRouter();
   const [openDialog, setOpenDialog] = useState(false)
   const {register, handleSubmit, control, watch, formState: {errors}, setError, reset, resetField} = useForm<CreateType>({
     resolver: zodResolver(createSchema),
@@ -48,8 +49,6 @@ export default function CreateTransactionDialog({walletData}: {walletData: ViewA
     }
   }, [type, resetField])
 
-  const route = useRouter();
-  
   async function onSubmit (data: CreateType) {
     console.log("sdaw")
     const result = await createTransaction(data)
