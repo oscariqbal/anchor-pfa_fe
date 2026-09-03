@@ -1,4 +1,7 @@
-export default async function viewAccount () {
+import { GetResType } from "@/features/auth/schema";
+import { ReturnTypes } from "@/types/return";
+
+export default async function viewAccount (): Promise<ReturnTypes<GetResType>> {
   try {
     const response = await fetch("http://localhost:5555/api/auth/me", {
       method: "GET",
@@ -23,7 +26,8 @@ export default async function viewAccount () {
   } catch (error) {
     return {
       success: false,
-      message: "Network error"
+      message: "Network error",
+      errors: {general: ["Network error"]}
     }
   }
 }

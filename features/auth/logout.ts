@@ -1,4 +1,6 @@
-export default async function logout () {
+import { ReturnTypes } from "@/types/return";
+
+export default async function logout (): Promise<ReturnTypes> {
   try {
     const response = await fetch("http://localhost:5555/api/auth/logout", {
       method: "POST",
@@ -23,7 +25,8 @@ export default async function logout () {
   } catch (error) {
     return {
       success: false,
-      message: "Network error"
+      message: "Network error",
+      errors: {general: ["Network error"]}
     }
   }
 }

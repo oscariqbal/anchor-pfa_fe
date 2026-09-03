@@ -26,9 +26,7 @@ export default function RootLayout({
     <html lang="en" className={cn("h-full", "antialiased", "font-sans", inter.variable, manrope.variable, "scroll-smooth", "scroll-pt-[12vh]", "sm:scroll-pt-[13vh]", "md:scroll-pt-[14vh]", "lg:scroll-pt-[15vh]")} suppressHydrationWarning>
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <main>
-            {children}
-          </main>
+          {children}
           <Toaster />
         </ThemeProvider>
       </body>

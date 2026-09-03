@@ -2,6 +2,7 @@
 
 // ui components
 import {
+  useSidebar,
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -17,10 +18,15 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner"
 
 // APIs
 import viewAccount from "@/features/auth/view-account";
 import logout from "@/features/auth/logout";
+
+// schemas and types
+import { ErrorReturnTypes } from "@/types/return";
+import { GetResType } from "@/features/auth/schema"
 
 // icons
 import AnchorIcon from "@/public/icon/anchor";
@@ -33,23 +39,21 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 export default function AppSidebar() {
-  const [accountData, setAccountData] = useState<{
-    id: number
-    name: string
-    email: string
-  } | null>(null)
-  const [accountError, setAccountError] = useState()
+  const [accountData, setAccountData] = useState<GetResType | null>(null)
+  const [accountError, setAccountError] = useState<ErrorReturnTypes | null>(null)
   const router = useRouter();
+  const { setOpenMobile } = useSidebar()
 
   useEffect(() => {
     async function getAccountData() {
       const result = await viewAccount()
 
-      if (result.success) {
-        setAccountData(result.data)
-      } else {
-        setAccountError(result.errors)
+      if (!result.success) {
+        setAccountError(result)
+        return
       }
+      
+      setAccountData(result.data)
     }
 
     getAccountData()
@@ -61,9 +65,7 @@ export default function AppSidebar() {
     if (result.success) {
       router.replace("/");
     } else {
-      return (
-        <p>failed to sign out</p>
-      )
+      toast.error("Failed to sign out")
     }
   }
 
@@ -80,7 +82,7 @@ export default function AppSidebar() {
         <SidebarGroup className="mt-2 p-0">
           <SidebarGroupContent className="flex flex-col gap-2 group-data-[state=collapsed]flex group-data-[state=collapsed]:flex-col group-data-[state=collapsed]:gap-6">
             <SidebarMenuItem>
-              <Link href="/overview">
+              <Link href="/overview" onClick={() => setOpenMobile(false)}>
                 <SidebarMenuButton className="p-3 gap-4 [&_svg]:size-6 group-data-[state=collapsed]:mt-2 group-data-[state=collapsed]:mx-auto">
                   <House />
                   <span>Overview</span>
@@ -88,7 +90,7 @@ export default function AppSidebar() {
               </Link>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <Link href="/wallets">
+              <Link href="/wallets" onClick={() => setOpenMobile(false)}>
                 <SidebarMenuButton className="p-3 gap-4 [&_svg]:size-6 group-data-[state=collapsed]:mx-auto">
                   <Wallet/>
                   <span>Wallets</span>
@@ -96,7 +98,7 @@ export default function AppSidebar() {
               </Link>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <Link href="/transactions">
+              <Link href="/transactions" onClick={() => setOpenMobile(false)}>
                 <SidebarMenuButton className="p-3 gap-4 [&_svg]:size-6 group-data-[state=collapsed]:mx-auto">
                   <ArrowLeftRight/>
                   <span>Transactions</span>
@@ -135,14 +137,16 @@ export default function AppSidebar() {
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
-        {accountData ? (
+        {accountData && (
           <div className="group-data-[state=collapsed]:hidden">
             <p className="text-sm">{accountData.name}</p>
             <p className="text-xs opacity-50">{accountData.email}</p>
           </div>
-        ) : accountError && (
+        )} 
+        {(accountError) && (
           <div className="group-data-[state=collapsed]:hidden">
-            <p className="text-xs">Failed to fetch account data</p>
+            <p className="text-xs">{accountError.message}</p>
+            <p className="text-xs opacity-50">{accountError.errors.general?.[0]}</p>
           </div>
         )}
       </SidebarFooter>

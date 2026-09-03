@@ -12,3 +12,6 @@ export type ReturnTypes<T = unknown> =
         general?: string[]
       }
     }
+
+export type SuccessReturnTypes<T> = Extract<ReturnTypes<T>, { success: true }>
+export type ErrorReturnTypes = Extract<ReturnTypes, { success: false }>

@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 export default function Account() {
   return (
-    <div className="w-full flex flex-col gap-4">
+    <section>
       <ViewAccount />
-    </div>
+    </section>
   );
 };

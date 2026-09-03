@@ -29,11 +29,11 @@ export default async function PublicLayout({ children } : { children: React.Reac
     }
   } catch (error) {
     return (
-      <>
+      <main>
         <HeaderPublic />
         {children}
         <FooterPublic />
-      </>
+      </main>
     )
   }
 }
