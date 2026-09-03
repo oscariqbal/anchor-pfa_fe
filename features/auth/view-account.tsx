@@ -4,7 +4,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 // common components
-import { SkeletonComponent } from "@/components/common/skeleton-component";
+import { SkeletonCard } from "@/components/common/skeleton-component";
 import ErrorComponent from "@/components/common/error-component";
 
 // APIs
@@ -45,7 +45,7 @@ export default function ViewAccount() {
   return (
     <>
       {loading && (
-        <SkeletonComponent className="h-40"/>
+        <SkeletonCard />
       )}
       {error && (
         <ErrorComponent message={error.message}/>

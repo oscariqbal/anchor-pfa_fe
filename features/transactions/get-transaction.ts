@@ -1,6 +1,11 @@
+// types
+import { ReturnTypes } from "@/types/return.types";
+import { GetType } from "@/features//transactions/types";
+
+// others
 import { cookies } from "next/headers";
 
-export default async function viewTransaction(id: number) {
+export default async function getTransaction(id: number): Promise<ReturnTypes<GetType>> {
   const cookieStore = await cookies();
   try {
     const response = await fetch(`http://localhost:5555/api/transactions/${id}`, {
@@ -29,7 +34,8 @@ export default async function viewTransaction(id: number) {
   } catch (error) {
     return {
       success: false,
-      message: "Network error"
+      message: "Network error",
+      errors: {general: ["Network error"]}
     }
   }
 }

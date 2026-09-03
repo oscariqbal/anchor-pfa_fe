@@ -1,5 +1,5 @@
-// ui components
-import { SkeletonComponent } from "@/components/common/skeleton-component";
+// common components
+import { SkeletonCard } from "@/components/common/skeleton-component";
 import ErrorComponent from "@/components/common/error-component";
 
 // features components
@@ -28,19 +28,17 @@ export default async function Transactions() {
   }
 
   return (
-    <div className="w-full flex flex-col gap-4">
-      <section className="w-full flex flex-col gap-4">
-        <div className="ml-auto">
-          <CreateTransactionDialog walletData={result.data}/>
-        </div>
-        <div>
-          <ErrorBoundary fallback={<ErrorComponent message={"Unable to load Transactions"}/>}>
-            <Suspense fallback={<SkeletonComponent className="h-16"/>}>
-              <ViewTransactions />
-            </Suspense>
-          </ErrorBoundary>
-        </div>
-      </section>
-    </div>
+    <section className="w-full flex flex-col gap-4">
+      <div className="ml-auto">
+        <CreateTransactionDialog walletData={result.data}/>
+      </div>
+      <div>
+        <ErrorBoundary fallback={<ErrorComponent message={"Unable to load transactions"}/>}>
+          <Suspense fallback={<SkeletonCard />}>
+            <ViewTransactions />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
+    </section>
   );
 };

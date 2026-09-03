@@ -19,9 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner"
-
-// common components
-import { SkeletonComponent } from "@/components/common/skeleton-component";
+import { Skeleton } from "@/components/ui/skeleton"
 
 // APIs
 import getAccount from "@/features/auth/get-account";
@@ -123,8 +121,8 @@ export default function AppSidebar() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full cursor-pointer group-data-[state=collapsed]:mx-auto">
               <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
-                <AvatarFallback>LR</AvatarFallback>
+                <AvatarImage src="https://api.dicebear.com/10.x/thumbs/svg?seed=user123" alt="default" />
+                <AvatarFallback>PP</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
@@ -147,9 +145,9 @@ export default function AppSidebar() {
           </DropdownMenuContent>
         </DropdownMenu>
         {(accountLoading) && (
-          <div className="group-data-[state=collapsed]:hidden">
-            <SkeletonComponent className="h-4"/>
-            <SkeletonComponent className="h-4"/>
+          <div className="group-data-[state=collapsed]:hidden flex flex-col gap-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
           </div>
         )}
         {(accountError) && (

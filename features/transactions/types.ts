@@ -3,7 +3,7 @@ import { createSchema, updateSchema } from "@/features/transactions/schema";
 
 export type CreateType = z.infer<typeof createSchema>;
 export type UpdateType = z.infer<typeof updateSchema>;
-export type GetAllType = {
+export type GetType = {
   id: number,
   type: string,
   amount: string,
@@ -17,4 +17,5 @@ export type GetAllType = {
     id: number,
     name: string
   },
-}[]
+}
+export type GetAllType = GetType[]

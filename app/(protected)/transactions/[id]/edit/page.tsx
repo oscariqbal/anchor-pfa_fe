@@ -2,7 +2,7 @@
 import EditTransactionCard  from "@/features/transactions/edit-transaction-card";
 
 // APIs
-import viewTransaction from "@/features/transactions/view-transaction";
+import viewTransaction from "@/features/transactions/get-transaction";
 import viewAllWallets from "@/features/wallets/view-all-wallets";
 
 // schemas and types
