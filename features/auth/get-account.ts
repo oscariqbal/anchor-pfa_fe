@@ -1,7 +1,8 @@
-import { GetResType } from "@/features/auth/schema";
-import { ReturnTypes } from "@/types/return";
+// types
+import { GetType } from "@/features/auth/types";
+import { ReturnTypes } from "@/types/return.types";
 
-export default async function viewAccount (): Promise<ReturnTypes<GetResType>> {
+export default async function getAccount(): Promise<ReturnTypes<GetType>> {
   try {
     const response = await fetch("http://localhost:5555/api/auth/me", {
       method: "GET",

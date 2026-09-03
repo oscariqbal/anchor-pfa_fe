@@ -4,8 +4,6 @@ export const enumTransaction = ["INCOME", "EXPENSE", "TRANSFER"]
 export const enumTransactionSchema = z.enum(enumTransaction);
 export type EnumType = z.infer<typeof enumTransactionSchema>;
 
-// === Body ===
-
 export const createSchema = z.object({
   type: z
     .enum(enumTransaction, "Invalid transaction type"),
@@ -32,11 +30,6 @@ export const createSchema = z.object({
 })
 
 export const updateSchema = createSchema.partial().strict()
-
-// === Types ===
-
-export type CreateType = z.infer<typeof createSchema>;
-export type UpdateType = z.infer<typeof updateSchema>;
 
 // === Props Types ===
 

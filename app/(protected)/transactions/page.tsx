@@ -1,11 +1,17 @@
-// custom components
+// ui components
+import { SkeletonComponent } from "@/components/common/skeleton-component";
+import ErrorComponent from "@/components/common/error-component";
+
+// features components
 import CreateTransactionDialog from "@/features/transactions/create-transaction-dialog";
-import ViewAllTransactions from "@/features/transactions/view-all-transactions-items";
+import ViewTransactions from "@/features/transactions/view-transactions";
 
 // APIs
 import viewAllWallets from "@/features/wallets/view-all-wallets";
 
 // others
+import { Suspense } from "react";
+import ErrorBoundary from "@/helpers/error-boundary";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -25,11 +31,14 @@ export default async function Transactions() {
     <div className="w-full flex flex-col gap-4">
       <section className="w-full flex flex-col gap-4">
         <div className="ml-auto">
-          {/* ganti ke component create transaction */}
           <CreateTransactionDialog walletData={result.data}/>
         </div>
         <div>
-          <ViewAllTransactions />
+          <ErrorBoundary fallback={<ErrorComponent message={"Unable to load Transactions"}/>}>
+            <Suspense fallback={<SkeletonComponent className="h-16"/>}>
+              <ViewTransactions />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </section>
     </div>

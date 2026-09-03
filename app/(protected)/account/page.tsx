@@ -1,5 +1,5 @@
-// custom components
-import ViewAccount from "@/features/auth/view-account-card"
+// features components
+import ViewAccount from "@/features/auth/view-account"
 
 // others
 import type { Metadata } from "next";

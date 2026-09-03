@@ -11,8 +11,11 @@ import { toast } from "sonner"
 // APIs
 import login from "@/features/auth/login"
 
-// schemas and types
-import { loginReqSchema, LoginReqType } from "@/features/auth/schema"
+// schemas
+import { loginReqSchema } from "@/features/auth/schema"
+
+// types
+import { LoginReqType } from "@/features/auth/types"
 
 // others
 import { useForm } from "react-hook-form";
@@ -75,7 +78,7 @@ export default function LoginForm() {
               <Field>
                 <Button type="submit" className="w-full cursor-pointer" disabled={isSubmitting} onClick={
                   errors.root?.serverError
-                    ? () => toast.error(errors.root?.serverError.message, {position: "top-center"})
+                    ? () => toast.error(errors.root?.serverError.message, {description: "Please try again",position: "top-center"})
                     : undefined
                 }>
                   {isSubmitting ? <Spinner /> : "Sign In"}

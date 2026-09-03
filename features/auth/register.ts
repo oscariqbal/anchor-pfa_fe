@@ -1,5 +1,6 @@
-import { RegisterReqType } from "./schema";
-import { ReturnTypes } from "@/types/return";
+// types
+import { RegisterReqType } from "@/features/auth/types";
+import { ReturnTypes } from "@/types/return.types";
 
 export default async function regist (data: RegisterReqType): Promise<ReturnTypes> {
   try {

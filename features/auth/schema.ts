@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-// === Request ===
-
 export const registerReqSchema = z.object({
   name: z
     .string("Account name must be a string")
@@ -20,15 +18,3 @@ export const registerReqSchema = z.object({
 export const loginReqSchema = registerReqSchema.omit({
   name: true
 }).strict()
-
-// === Response ===
-
-export const getResSchema = registerReqSchema.omit({
-  password: true
-}).strict()
-
-// === Types ===
-
-export type RegisterReqType = z.infer<typeof registerReqSchema>;
-export type LoginReqType = z.infer<typeof loginReqSchema>;
-export type GetResType = z.infer<typeof getResSchema>;

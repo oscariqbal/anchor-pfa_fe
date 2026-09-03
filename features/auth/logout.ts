@@ -1,4 +1,5 @@
-import { ReturnTypes } from "@/types/return";
+// types
+import { ReturnTypes } from "@/types/return.types";
 
 export default async function logout (): Promise<ReturnTypes> {
   try {

@@ -11,9 +11,12 @@ import { Button } from "@/components/ui/button";
 // APIs
 import createTransaction from "@/features/transactions/create-transaction"
 
-// schemas and types
-import { createSchema, CreateType, enumTransaction } from "@/features/transactions/schema";
+// schemas
+import { createSchema, enumTransaction } from "@/features/transactions/schema";
+
+// types
 import { ViewAllType } from "@/features/wallets/schema";
+import { CreateType } from "@/features/transactions/types";
 
 // others
 import { Controller, useForm, FieldErrors } from "react-hook-form";

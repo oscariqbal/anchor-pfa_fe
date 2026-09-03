@@ -11,8 +11,11 @@ import { toast } from "sonner"
 // APIs
 import regist from "@/features/auth/register";
 
-// schemas and types
-import { registerReqSchema, RegisterReqType } from "@/features/auth/schema"
+// schemas
+import { registerReqSchema } from "@/features/auth/schema"
+
+// types
+import { RegisterReqType } from "@/features/auth/types";
 
 // others
 import { useForm } from "react-hook-form";
@@ -83,7 +86,7 @@ export default function RegisterForm() {
               <Field>
                 <Button type="submit" className="w-full cursor-pointer" disabled={isSubmitting} onClick={
                   errors.root?.serverError
-                    ? () => toast.error(errors.root?.serverError.message, {position: "top-center"})
+                    ? () => toast.error(errors.root?.serverError.message, {description: "Please try again", position: "top-center"})
                     : undefined
                 }>
                   {isSubmitting ? <Spinner /> : "Sign In"}

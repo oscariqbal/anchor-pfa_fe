@@ -1,9 +1,11 @@
 import { cookies } from "next/headers";
+import { GetAllType } from "@/features/transactions/types";
+import { ReturnTypes } from "@/types/return.types";
 
-export default async function viewAllTransactions(query?: string) {
+export default async function getTransactions(query?: string): Promise<ReturnTypes<GetAllType>> {
   const cookieStore = await cookies();
   try {
-    const response = await fetch(`http://localhost:5555/api/transactions/${query}`, {
+    const response = await fetch(`http://localhost:5555/api/transactions?${query}`, {
       method: "GET",
       headers: {
         Cookie: cookieStore.toString(),
@@ -29,7 +31,8 @@ export default async function viewAllTransactions(query?: string) {
   } catch (error) {
     return {
       success: false,
-      message: "Network error"
+      message: "Network error",
+      errors: {general: ["Network error"]}
     }
   }
 }

@@ -1,5 +1,6 @@
-import { LoginReqType } from "./schema";
-import { ReturnTypes } from "@/types/return";
+// types
+import { LoginReqType } from "@/features/auth/types";
+import { ReturnTypes } from "@/types/return.types";
  
 export default async function login (data: LoginReqType): Promise<ReturnTypes> {
   try {

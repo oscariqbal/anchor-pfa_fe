@@ -20,13 +20,18 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner"
 
+// common components
+import { SkeletonComponent } from "@/components/common/skeleton-component";
+
 // APIs
-import viewAccount from "@/features/auth/view-account";
+import getAccount from "@/features/auth/get-account";
 import logout from "@/features/auth/logout";
 
-// schemas and types
-import { ErrorReturnTypes } from "@/types/return";
-import { GetResType } from "@/features/auth/schema"
+// schemas
+import { ErrorReturnTypes } from "@/types/return.types";
+
+// types
+import { GetType } from "@/features/auth/types"
 
 // icons
 import AnchorIcon from "@/public/icon/anchor";
@@ -39,21 +44,25 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 export default function AppSidebar() {
-  const [accountData, setAccountData] = useState<GetResType | null>(null)
+  const [accountLoading, setAccountLoading] = useState<boolean>(false)
   const [accountError, setAccountError] = useState<ErrorReturnTypes | null>(null)
+  const [accountData, setAccountData] = useState<GetType | null>(null)
   const router = useRouter();
   const { setOpenMobile } = useSidebar()
 
   useEffect(() => {
     async function getAccountData() {
-      const result = await viewAccount()
+      setAccountLoading(true)
+      const result = await getAccount()
 
       if (!result.success) {
+        setAccountLoading(false)
         setAccountError(result)
         return
       }
       
       setAccountData(result.data)
+      setAccountLoading(false)
     }
 
     getAccountData()
@@ -137,16 +146,22 @@ export default function AppSidebar() {
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
+        {(accountLoading) && (
+          <div className="group-data-[state=collapsed]:hidden">
+            <SkeletonComponent className="h-4"/>
+            <SkeletonComponent className="h-4"/>
+          </div>
+        )}
+        {(accountError) && (
+          <div className="group-data-[state=collapsed]:hidden">
+            <p className="text-xs text-destructive">{accountError.message}</p>
+            <p className="text-xs"></p>
+          </div>
+        )}
         {accountData && (
           <div className="group-data-[state=collapsed]:hidden">
             <p className="text-sm">{accountData.name}</p>
             <p className="text-xs opacity-50">{accountData.email}</p>
-          </div>
-        )} 
-        {(accountError) && (
-          <div className="group-data-[state=collapsed]:hidden">
-            <p className="text-xs">{accountError.message}</p>
-            <p className="text-xs opacity-50">{accountError.errors.general?.[0]}</p>
           </div>
         )}
       </SidebarFooter>
