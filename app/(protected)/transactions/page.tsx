@@ -1,5 +1,5 @@
 // common components
-import { SkeletonCard } from "@/components/common/skeleton-component";
+import { SkeletonCardItem } from "@/components/common/skeleton-component";
 import ErrorComponent from "@/components/common/error-component";
 
 // features components
@@ -34,7 +34,7 @@ export default async function Transactions() {
       </div>
       <div>
         <ErrorBoundary fallback={<ErrorComponent message={"Unable to load transactions"}/>}>
-          <Suspense fallback={<SkeletonCard />}>
+          <Suspense fallback={<SkeletonCardItem className="h-16"/>}>
             <ViewTransactions />
           </Suspense>
         </ErrorBoundary>

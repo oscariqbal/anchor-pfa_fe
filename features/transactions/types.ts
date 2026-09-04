@@ -1,7 +1,8 @@
 import { z } from "zod";
-import { createSchema, updateSchema } from "@/features/transactions/schema";
+import { createFormSchema, createAPISchema, updateSchema } from "@/features/transactions/schema";
 
-export type CreateType = z.infer<typeof createSchema>;
+export type CreateFormType = z.infer<typeof createFormSchema>;
+export type CreateAPIType = z.infer<typeof createAPISchema>;
 export type UpdateType = z.infer<typeof updateSchema>;
 export type GetType = {
   id: number,

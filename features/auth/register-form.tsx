@@ -66,21 +66,21 @@ export default function RegisterForm() {
                 <FieldLabel htmlFor="name">Name</FieldLabel>
                 <Input {...register("name")} name="name" id="name" type="name" placeholder="John" />
                 {errors.name && (
-                  <p className="text-red-400">{errors.name.message}</p>
+                  <p className="text-destructive">{errors.name.message}</p>
                 )}
               </Field>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input {...register("email")} name="email" id="email" type="email" placeholder="john@example.com" />
                 {errors.email && (
-                  <p className="text-red-400">{errors.email.message}</p>
+                  <p className="text-destructive">{errors.email.message}</p>
                 )}
               </Field>
               <Field>
                 <FieldLabel htmlFor="password">Password</FieldLabel>
                 <Input {...register("password")} name="password" id="password" type="password" placeholder="••••••••"/>
                 {errors.password && (
-                  <p className="text-red-400">{errors.password.message}</p>
+                  <p className="text-destructive">{errors.password.message}</p>
                 )}
               </Field>
               <Field>

@@ -4,7 +4,7 @@ export const enumTransaction = ["INCOME", "EXPENSE", "TRANSFER"]
 export const enumTransactionSchema = z.enum(enumTransaction);
 export type EnumType = z.infer<typeof enumTransactionSchema>;
 
-export const createSchema = z.object({
+export const baseSchema = z.object({
   type: z
     .enum(enumTransaction, "Invalid transaction type"),
   amount: z
@@ -15,8 +15,6 @@ export const createSchema = z.object({
     .trim()
     .min(1, "Transaction note is required")
     .max(255, "Transaction note must be at most 255 characters"),
-  time: z
-    .iso.datetime({local: true}),
   sourceWalletId: z
     .number("Source Wallet Id amount must be a number")
     .int("Source Wallet Id amount must be an integer")
@@ -29,7 +27,16 @@ export const createSchema = z.object({
     .optional(),
 })
 
-export const updateSchema = createSchema.partial().strict()
+export const createFormSchema = baseSchema.extend({
+  date: z.date(),
+  time: z.string()
+})
+
+export const createAPISchema = baseSchema.extend({
+  datetime: z.iso.datetime()
+})
+
+export const updateSchema = createAPISchema.partial().strict()
 
 // === Props Types ===
 

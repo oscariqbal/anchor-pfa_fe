@@ -19,17 +19,9 @@ import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner"
-import { Skeleton } from "@/components/ui/skeleton"
 
 // APIs
-import getAccount from "@/features/auth/get-account";
 import logout from "@/features/auth/logout";
-
-// schemas
-import { ErrorReturnTypes } from "@/types/return.types";
-
-// types
-import { GetType } from "@/features/auth/types"
 
 // icons
 import AnchorIcon from "@/public/icon/anchor";
@@ -39,32 +31,12 @@ import { House, Wallet, ArrowLeftRight } from "lucide-react";
 // others
 import Link from "next/link";
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useUser } from "@/contexts/UserContext"
 
 export default function AppSidebar() {
-  const [accountLoading, setAccountLoading] = useState<boolean>(false)
-  const [accountError, setAccountError] = useState<ErrorReturnTypes | null>(null)
-  const [accountData, setAccountData] = useState<GetType | null>(null)
+  const user = useUser()
   const router = useRouter();
   const { setOpenMobile } = useSidebar()
-
-  useEffect(() => {
-    async function getAccountData() {
-      setAccountLoading(true)
-      const result = await getAccount()
-
-      if (!result.success) {
-        setAccountLoading(false)
-        setAccountError(result)
-        return
-      }
-      
-      setAccountData(result.data)
-      setAccountLoading(false)
-    }
-
-    getAccountData()
-  }, [])
 
   async function handleLogout() {
     const result = await logout()
@@ -119,7 +91,7 @@ export default function AppSidebar() {
       <SidebarFooter className="flex flex-row">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-full cursor-pointer group-data-[state=collapsed]:mx-auto">
+            <Button variant="ghost" size="icon" className="rounded-full cursor-pointer group-data-[state=collapsed]:mx-auto" >
               <Avatar>
                 <AvatarImage src="https://api.dicebear.com/10.x/thumbs/svg?seed=user123" alt="default" />
                 <AvatarFallback>PP</AvatarFallback>
@@ -129,7 +101,7 @@ export default function AppSidebar() {
           <DropdownMenuContent className="w-full">
             <DropdownMenuGroup>
               <DropdownMenuItem className="cursor-pointer" asChild>
-                <Link href="/account">
+                <Link href="/account" onClick={() => setOpenMobile(false)}>
                   <UserIcon />
                   View account
                 </Link>
@@ -144,24 +116,10 @@ export default function AppSidebar() {
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
-        {(accountLoading) && (
-          <div className="group-data-[state=collapsed]:hidden flex flex-col gap-2">
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-full" />
-          </div>
-        )}
-        {(accountError) && (
           <div className="group-data-[state=collapsed]:hidden">
-            <p className="text-xs text-destructive">{accountError.message}</p>
-            <p className="text-xs"></p>
+            <p className="text-sm">{user.name}</p>
+            <p className="text-xs opacity-50">{user.email}</p>
           </div>
-        )}
-        {accountData && (
-          <div className="group-data-[state=collapsed]:hidden">
-            <p className="text-sm">{accountData.name}</p>
-            <p className="text-xs opacity-50">{accountData.email}</p>
-          </div>
-        )}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -1,7 +1,8 @@
-// schemas and types
-import { CreateType } from "./schema";
+// types
+import { ReturnTypes } from "@/types/return.types";
+import { CreateAPIType } from "@/features/transactions/types";
 
-export default async function createTransaction (data: CreateType) {
+export default async function createTransaction (data: CreateAPIType): Promise<ReturnTypes<CreateAPIType>> {
   try {
     const response = await fetch(`http://localhost:5555/api/transactions`, {
       method: "POST",
@@ -21,7 +22,7 @@ export default async function createTransaction (data: CreateType) {
         errors: body.errors
       }
     }
-
+    
     return {
       success: true,
       message: body.message,
@@ -30,7 +31,8 @@ export default async function createTransaction (data: CreateType) {
   } catch (error) {
     return {
       success: false,
-      message: "Network error"
+      message: "Network error",
+      errors: {general: ["Network error"]}
     }
   }
 }

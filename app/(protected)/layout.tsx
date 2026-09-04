@@ -9,33 +9,40 @@ import AppSidebar from "@/app/(protected)/appsidebar";
 import HeaderProtected from "@/app/(protected)/header";
 
 // others
+import { UserProvider } from "@/contexts/UserContext"
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
 
-  const response = await fetch( "http://localhost:5555/api/auth/me", {
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-    cache: "no-store",
-  });
+//  try {
+    const response = await fetch( "http://localhost:5555/api/auth/me", {
+      headers: { Cookie: cookieStore.toString() },
+      cache: "no-store",
+    })
 
-  if (!response.ok) {
-    redirect("/login");
-  }
+    const body = await response.json();
+    
+    if (!response.ok) {
+      redirect("/login");
+    }
 
-  return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main className="w-full">
-        <HeaderProtected />
-        <Separator />
-        <div className="p-4">
-          {children}
-        </div>
-      </main>
-    </SidebarProvider>
-  );
+    return (
+      <UserProvider user={body.data}>
+        <SidebarProvider>
+          <AppSidebar />
+          <main className="w-full">
+            <HeaderProtected />
+            <Separator />
+            <div className="p-4">
+              {children}
+            </div>
+          </main>
+        </SidebarProvider>
+      </UserProvider>
+    )
+//  } catch (error) {
+//    return 
+//  }
 }
