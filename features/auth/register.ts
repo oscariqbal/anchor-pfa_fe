@@ -31,7 +31,7 @@ export default async function regist (data: RegisterReqType): Promise<ReturnType
     return {
       success: false,
       message: "Network error",
-      errors: {general: ["Network error"]}
+      errors: {}
     }
   }
 }

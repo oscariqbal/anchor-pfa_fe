@@ -35,7 +35,7 @@ export default async function getTransaction(id: number): Promise<ReturnTypes<Ge
     return {
       success: false,
       message: "Network error",
-      errors: {general: ["Network error"]}
+      errors: {}
     }
   }
 }

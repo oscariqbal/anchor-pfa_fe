@@ -32,7 +32,7 @@ export default async function getTransactions(query?: string): Promise<ReturnTyp
     return {
       success: false,
       message: "Network error",
-      errors: {general: ["Network error"]}
+      errors: {}
     }
   }
 }

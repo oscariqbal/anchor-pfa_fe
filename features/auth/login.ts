@@ -32,7 +32,7 @@ export default async function login (data: LoginReqType): Promise<ReturnTypes> {
     return {
       success: false,
       message: "Network error",
-      errors: {general: ["Network error"]}
+      errors: {}
     }
   }
 }

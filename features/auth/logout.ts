@@ -27,7 +27,7 @@ export default async function logout (): Promise<ReturnTypes> {
     return {
       success: false,
       message: "Network error",
-      errors: {general: ["Network error"]}
+      errors: {}
     }
   }
 }

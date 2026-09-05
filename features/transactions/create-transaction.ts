@@ -32,7 +32,7 @@ export default async function createTransaction (data: CreateAPIType): Promise<R
     return {
       success: false,
       message: "Network error",
-      errors: {general: ["Network error"]}
+      errors: {}
     }
   }
 }
