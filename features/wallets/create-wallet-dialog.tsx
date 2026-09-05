@@ -1,40 +1,44 @@
 'use client'
 
 // ui components
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
-import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "@/components/ui/select";
-import { Field, FieldGroup } from "@/components/ui/field"
+import { toast } from "sonner"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner"
+import { Textarea } from "@/components/ui/textarea"
+import { Field, FieldLabel, FieldGroup, FieldSet } from "@/components/ui/field"
+import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "@/components/ui/select";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
 
 // APIs
 import createWallet from "@/features/wallets/create-wallet"
 
-// schemas and types
-import { createSchema, CreateType, enumWallet } from "@/features/wallets/schema";
+// schemas
+import { createSchema, enumWallet } from "@/features/wallets/schema";
+
+// types
+import { CreateType } from "@/features/wallets/types"
 
 // others
+import { useState } from "react"
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { applyFieldErrors } from "@/helpers/applyFieldErrors";
-import { useRouter } from "next/navigation";
-import { useState } from "react"
 
 export default function CreateWalletDialog() {
-  const {register, handleSubmit, control, formState: {errors}, setError, reset} = useForm<CreateType>({
+  const route = useRouter();
+  const [openDialog, setOpenDialog] = useState(false)
+  const {register, handleSubmit, control, formState: {errors, isSubmitting}, setError, reset} = useForm<CreateType>({
     resolver: zodResolver(createSchema),
+    mode: "onChange",
     defaultValues: {
       type: "",
       name: "",
-      description: ""
+      description: "",
     }
   });
 
-  const [openDialog, setOpenDialog] = useState(false)
-
-  const route = useRouter();
-  
   async function onSubmit (data: CreateType) {
     const result = await createWallet(data)
 
@@ -49,8 +53,9 @@ export default function CreateWalletDialog() {
       if (result.errors?.general) {
         setError("root.serverError", {
           type: "server",
-          message: result.errors.general,
+          message: result.errors.general[0] ?? result.message,
         });
+        toast.error(errors.root?.serverError.message, {description: "Please try again", position: "top-center"})
       }
     }
   };
@@ -63,61 +68,67 @@ export default function CreateWalletDialog() {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-          <DialogHeader>
-            <DialogTitle className="text-base">Create Wallet</DialogTitle>
-            <DialogDescription>
-              Create your wallet
-            </DialogDescription>
-          </DialogHeader>
-          <FieldGroup>
-            <Field>
-              <Label htmlFor="type">Type</Label>
-              <Controller name="type" control={control} render={({field}) => (
-                <Select value={field.value} onValueChange={field.onChange} >
-                  <SelectTrigger className="cursor-pointer">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {enumWallet.map((option) => (
-                      <SelectItem key={option} value={option} className="cursor-pointer">
-                        {option}
-                      </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              )} />
-              {errors.type && (
-                <p className="text-red-400">{errors.type.message}</p>
-              )}
-            </Field>
-            <Field>
-              <Label htmlFor="name">Name</Label>
-              <Input {...register("name")} />
-              {errors.name && (
-                <p className="text-red-400">{errors.name.message}</p>
-              )}
-            </Field>
-            <Field>
-              <Label htmlFor="description">Description</Label>
-              <Input {...register("description")} />
-              {errors.description && (
-                <p className="text-red-400">{errors.description.message}</p>
-              )}
-            </Field>
-          </FieldGroup>
-          {errors.root?.serverError && (
-            <p className="text-red-400">{errors.root.serverError.message}</p>
-          )}
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline" className="cursor-pointer">Cancel</Button>
-            </DialogClose>
-            <Button type="submit" className="cursor-pointer">Submit</Button>
-          </DialogFooter>
-        </form>
+        <DialogHeader>
+          <DialogTitle className="text-base">Create a Wallet</DialogTitle>
+          <DialogDescription>Enter your wallet detail below</DialogDescription>
+        </DialogHeader>
+        <FieldSet>
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+            <FieldGroup>
+              <Field>
+                <FieldLabel htmlFor="type">Type</FieldLabel>
+                <Controller name="type" control={control} render={({field}) => (
+                  <Select value={field.value} onValueChange={field.onChange} >
+                    <SelectTrigger className="cursor-pointer">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {enumWallet.map((option) => (
+                        <SelectItem key={option} value={option} className="cursor-pointer">
+                          {option}
+                        </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                )} />
+                {errors.type && (
+                  <p className="text-destructive">{errors.type.message}</p>
+                )}
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="name">Name</FieldLabel>
+                <Input {...register("name")} />
+                {errors.name && (
+                  <p className="text-destructive">{errors.name.message}</p>
+                )}
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="description">Description</FieldLabel>
+                <Textarea 
+                  {...register("description")}
+                  id="textarea-message" 
+                  placeholder="National Bank"
+                />
+                {errors.description && (
+                  <p className="text-destructive">{errors.description.message}</p>
+                )}
+              </Field>
+            </FieldGroup>
+            {errors.root?.serverError && (
+              <p className="text-destructive">{errors.root.serverError.message}</p>
+            )}
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline" className="cursor-pointer">Cancel</Button>
+              </DialogClose>
+              <Button type="submit" className="cursor-pointer" disabled={isSubmitting}>
+                {isSubmitting ? <Spinner /> : "Submit"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </FieldSet>
       </DialogContent>
     </Dialog>
   );

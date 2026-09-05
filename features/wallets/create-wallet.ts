@@ -1,7 +1,8 @@
-// schemas and types
-import { CreateType } from "./schema";
+// types
+import { ReturnTypes } from "@/types/return.types";
+import { CreateType } from "@/features/wallets/types";
 
-export default async function createWallet (data: CreateType) {
+export default async function createWallet (data: CreateType): Promise<ReturnTypes<CreateType>> {
   try {
     const response = await fetch(`http://localhost:5555/api/wallets`, {
       method: "POST",
@@ -30,7 +31,8 @@ export default async function createWallet (data: CreateType) {
   } catch (error) {
     return {
       success: false,
-      message: "Network error"
+      message: "Network error",
+      errors: {}
     }
   }
 }

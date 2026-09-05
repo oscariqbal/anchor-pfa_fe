@@ -88,7 +88,8 @@ export default function CreateTransactionDialog({walletData}: {walletData: GetAl
         setError("root.serverError", {
           type: "server",
           message: result.errors.general[0] ?? result.message
-        });
+        })
+        toast.error(errors.root?.serverError.message, {description: "Please try again", position: "top-center"})
       }
     }
   }
@@ -251,11 +252,7 @@ export default function CreateTransactionDialog({walletData}: {walletData: GetAl
               <DialogClose asChild>
                 <Button variant="outline" className="cursor-pointer">Cancel</Button>
               </DialogClose>
-              <Button type="submit" className="cursor-pointer" disabled={isSubmitting} onClick={
-                errors.root?.serverError
-                  ? () => toast.error(errors.root?.serverError.message, {description: "Please try again", position: "top-center"})
-                  : undefined
-              }>
+              <Button type="submit" className="cursor-pointer" disabled={isSubmitting}>
                 {isSubmitting ? <Spinner /> : "Submit"}
               </Button>
             </DialogFooter>
