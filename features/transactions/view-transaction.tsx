@@ -36,7 +36,7 @@ export default async function ViewTransaction({id}: {id: number}) {
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4">
                 <dt className="text-xs md:text-sm">Time</dt>
-                <dd className="text-xs md:text-sm">{result.data.time}</dd>
+                <dd className="text-xs md:text-sm">{result.data.datetime}</dd>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4">
                 <dt className="text-xs md:text-sm">Source Wallet</dt>

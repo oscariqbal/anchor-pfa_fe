@@ -2,7 +2,6 @@ import { z } from "zod";
 
 export const enumTransaction = ["INCOME", "EXPENSE", "TRANSFER"]
 export const enumTransactionSchema = z.enum(enumTransaction);
-export type EnumType = z.infer<typeof enumTransactionSchema>;
 
 export const baseSchema = z.object({
   type: z
@@ -36,12 +35,5 @@ export const createAPISchema = baseSchema.extend({
   datetime: z.iso.datetime()
 })
 
-export const updateSchema = createAPISchema.partial().strict()
-
-// === Props Types ===
-
-export type Params = {
-  params: Promise<{
-    id:number
-  }>,
-}
+export const updateFormSchema = createFormSchema.partial().strict()
+export const updateAPISchema = createAPISchema.partial().strict()

@@ -22,9 +22,7 @@ export default async function Transactions() {
   const result = await viewAllWallets()
 
   if (!result.success) {
-    return (
-      <p>error fetch wallet data</p>
-    )
+    throw new Error(result.message)
   }
 
   return (

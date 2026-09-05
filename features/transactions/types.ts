@@ -1,15 +1,17 @@
 import { z } from "zod";
-import { createFormSchema, createAPISchema, updateSchema } from "@/features/transactions/schema";
+import { enumTransactionSchema, createFormSchema, createAPISchema, updateAPISchema, updateFormSchema } from "@/features/transactions/schema";
 
+export type EnumType = z.infer<typeof enumTransactionSchema>;
 export type CreateFormType = z.infer<typeof createFormSchema>;
 export type CreateAPIType = z.infer<typeof createAPISchema>;
-export type UpdateType = z.infer<typeof updateSchema>;
+export type UpdateAPIType = z.infer<typeof updateAPISchema>;
+export type UpdateFormType = z.infer<typeof updateFormSchema>;
 export type GetType = {
   id: number,
-  type: string,
-  amount: string,
+  type: EnumType,
+  amount: number,
   note: string,
-  time: string,
+  datetime: string,
   sourceWallet?: {
     id: number,
     name: string
@@ -20,3 +22,9 @@ export type GetType = {
   },
 }
 export type GetAllType = GetType[]
+
+export type Params = {
+  params: Promise<{
+    id:number
+  }>,
+}

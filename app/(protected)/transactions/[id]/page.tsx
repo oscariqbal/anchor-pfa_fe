@@ -2,12 +2,12 @@
 import { SkeletonCard } from "@/components/common/skeleton-component";
 import ErrorComponent from "@/components/common/error-component";
 
-// custom components
+// features components
 import ViewTransaction  from "@/features/transactions/view-transaction";
 import ActionDropdown from "@/features/transactions/action-dropdown";
 
-// schema and types
-import { Params } from "@/features/transactions/schema";
+// types
+import { Params } from "@/features/transactions/types";
 
 // others
 import { Suspense } from "react";

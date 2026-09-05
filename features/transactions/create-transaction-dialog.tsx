@@ -1,16 +1,16 @@
 'use client'
 
 // ui components
-import { Dialog, DialogClose, DialogHeader, DialogTitle, DialogDescription, DialogContent, DialogFooter, DialogTrigger, } from "@/components/ui/dialog"
-import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "@/components/ui/select";
-import { Field, FieldLabel, FieldGroup, FieldSet} from "@/components/ui/field"
+import { toast } from "sonner"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner"
-import { toast } from "sonner"
-import { Textarea } from "@/components/ui/textarea"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
+import { Textarea } from "@/components/ui/textarea"
+import { Field, FieldLabel, FieldGroup, FieldSet} from "@/components/ui/field"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "@/components/ui/select";
+import { Dialog, DialogClose, DialogHeader, DialogTitle, DialogDescription, DialogContent, DialogFooter, DialogTrigger, } from "@/components/ui/dialog"
 
 // APIs
 import createTransaction from "@/features/transactions/create-transaction"
@@ -27,13 +27,13 @@ import { ChevronDownIcon } from "lucide-react"
 
 // others
 import { format } from "date-fns";
+import { useState, useEffect } from "react"
 import { fromZonedTime } from "date-fns-tz";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/contexts/UserContext"
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { applyFieldErrors } from "@/helpers/applyFieldErrors";
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation";
-import { useUser } from "@/contexts/UserContext"
 
 export default function CreateTransactionDialog({walletData}: {walletData: ViewAllType[]}) {
   const user = useUser()
@@ -75,7 +75,7 @@ export default function CreateTransactionDialog({walletData}: {walletData: ViewA
     const utcDate = fromZonedTime(datetime, user.timezone)
     
     const result = await createTransaction({...data, datetime: utcDate.toISOString()})
-
+    
     if (result.success) {
       reset()
       setOpenDialog(false)
@@ -84,10 +84,10 @@ export default function CreateTransactionDialog({walletData}: {walletData: ViewA
       if (result.errors.field) {
         applyFieldErrors(result.errors.field, setError) // type assertion issue here
       }
-      if (result.errors?.general) {
+      if (result.errors.general) {
         setError("root.serverError", {
           type: "server",
-          message: result.errors.general[0],
+          message: result.errors.general[0] ?? result.message
         });
       }
     }

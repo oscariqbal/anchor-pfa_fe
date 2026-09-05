@@ -20,7 +20,7 @@ export default async function ViewTransactions() {
 
   return (
     <div className="flex flex-col gap-2">
-      {result.data && result.data.map(({ id, type, amount, note, time, sourceWallet, destinationWallet }) => (
+      {result.data && result.data.map(({ id, type, amount, note, datetime, sourceWallet, destinationWallet }) => (
         <div key={id}>
           <Link href={`/transactions/${id}`}>
             <Card size="sm" className="rounded-md">
@@ -41,7 +41,7 @@ export default async function ViewTransactions() {
                   type === "EXPENSE" && "text-red-500",
                   type === "TRANSFER" && "text-yellow-500"
                   )}>Rp. {amount}</p>
-                <p className="text-right text-muted-foreground">{time}</p>
+                <p className="text-right text-muted-foreground">{datetime}</p>
               </CardContent>
             </Card>
           </Link>

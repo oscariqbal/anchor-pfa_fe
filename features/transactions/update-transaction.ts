@@ -1,7 +1,8 @@
-// others
-import { UpdateType } from "./schema";
+// types
+import { ReturnTypes } from "@/types/return.types";
+import { UpdateAPIType } from "@/features/transactions/types";
 
-export default async function updateTransaction (data: UpdateType, id: number) {
+export default async function updateTransaction (data: UpdateAPIType, id: number): Promise<ReturnTypes<UpdateAPIType>> {
   try {
     const response = await fetch(`http://localhost:5555/api/transactions/${id}`, {
       method: "PATCH",
@@ -30,7 +31,8 @@ export default async function updateTransaction (data: UpdateType, id: number) {
   } catch (error) {
     return {
       success: false,
-      message: "Network error"
+      message: "Network error",
+      errors: {}
     }
   }
 }

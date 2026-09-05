@@ -1,12 +1,19 @@
-// custom components
+// common components
+import { SkeletonCard } from "@/components/common/skeleton-component";
+import ErrorComponent from "@/components/common/error-component";
+
+// ui components
+import { toast } from "sonner"
+
+// features components
 import EditTransactionCard  from "@/features/transactions/edit-transaction-card";
 
 // APIs
 import viewTransaction from "@/features/transactions/get-transaction";
 import viewAllWallets from "@/features/wallets/view-all-wallets";
 
-// schemas and types
-import { Params } from "@/features/transactions/schema";
+// types
+import { Params } from "@/features/transactions/types";
 
 // others
 import type { Metadata } from "next";
@@ -22,22 +29,18 @@ export default async function TransactionEdit({ params }: Params) {
   const oldTransaction = await viewTransaction(id)
   
   if (!wallets.success) {
-    return (
-      <p>error fetch wallet data</p>
-    )
+    throw new Error() // abis benerin get all wallet
   }
 
   if (!oldTransaction.success) {
-    return (
-      <p>error fetch prefill data</p>
-    )
+    throw new Error(oldTransaction.message)
   }
 
   return (
-    <div className="w-full flex flex-col gap-4">
-      <section className="w-full">
+    <section className="w-full flex flex-col gap-4">
+      {oldTransaction.data && 
         <EditTransactionCard id={id} wallets={wallets.data} oldTransaction={oldTransaction.data}/>
-      </section>
-    </div>
+      }
+    </section>
   );
 };
