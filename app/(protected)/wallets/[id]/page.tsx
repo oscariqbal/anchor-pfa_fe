@@ -1,12 +1,18 @@
+// common components
+import ErrorComponent from "@/components/common/error-component";
+import { SkeletonCard } from "@/components/common/skeleton-component";
+
 // custom components
-import ViewWallet  from "@/features/wallets/view-wallet-card";
+import ViewWallet  from "@/features/wallets/view-wallet";
 import ActionDropdown from "@/features/wallets/action-dropdown";
 
-// schema and types
-import { Params } from "@/features/wallets/schema";
+// types
+import { Params } from "@/features/wallets/types";
 
 // others
+import { Suspense } from "react";
 import type { Metadata } from "next";
+import ErrorBoundary from "@/helpers/error-boundary";
 
 export const metadata: Metadata = {
   title: "Wallet Details",
@@ -20,7 +26,11 @@ export default async function Wallet({params}: Params) {
         <ActionDropdown id={id} className="ml-auto"/>
       </section>
       <section className="w-full">
-        <ViewWallet id={id} />
+        <ErrorBoundary fallback={<ErrorComponent message={"Unable to load transaction details"}/>}>
+          <Suspense fallback={<SkeletonCard className="bg-transparent"/>}>
+            <ViewWallet id={id} />
+          </Suspense>
+        </ErrorBoundary>
       </section>
     </div>
   );

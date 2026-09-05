@@ -1,6 +1,9 @@
-import { cookies } from "next/headers";
+// types
 import { GetAllType } from "@/features/wallets/types";
 import { ReturnTypes } from "@/types/return.types";
+
+// others
+import { cookies } from "next/headers";
 
 export default async function getWallets(): Promise<ReturnTypes<GetAllType>> {
   const cookieStore = await cookies();

@@ -1,6 +1,6 @@
 // types
 import { ReturnTypes } from "@/types/return.types";
-import { GetType } from "@/features//transactions/types";
+import { GetType } from "@/features/transactions/types";
 
 // others
 import { cookies } from "next/headers";
@@ -13,7 +13,6 @@ export default async function getTransaction(id: number): Promise<ReturnTypes<Ge
       headers: {
         Cookie: cookieStore.toString(),
       },
-      credentials: "include",
     });
 
     const body = await response.json()

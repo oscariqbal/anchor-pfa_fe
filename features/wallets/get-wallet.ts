@@ -1,6 +1,11 @@
+// types
+import { ReturnTypes } from "@/types/return.types";
+import { GetType } from "@/features/wallets/types";
+
+// others
 import { cookies } from "next/headers";
 
-export default async function getWallet(id: number) {
+export default async function getWallet(id: number): Promise<ReturnTypes<GetType>> {
   const cookieStore = await cookies();
   try {
     const response = await fetch(`http://localhost:5555/api/wallets/${id}`, {
@@ -28,7 +33,8 @@ export default async function getWallet(id: number) {
   } catch (error) {
     return {
       success: false,
-      message: "Network error"
+      message: "Network error",
+      errors: {}
     }
   }
 }
