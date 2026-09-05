@@ -1,54 +1,59 @@
 'use client'
 
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button";
-import destroyTransaction from "./destroy-transaction"
+// ui components
+import { toast } from "sonner"
+import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction, AlertDialogMedia } from "@/components/ui/alert-dialog"
+
+// icons
+import { Trash } from 'lucide-react';
+
+// APIs
+import deleteTransaction from "@/features/transactions/delete-transaction"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type Props = {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  id: number
-}
-
-export default function DestroyTransactionDialog({open, onOpenChange, id }: Props) {
-  const [error, setError] = useState<{
-    success: boolean;
-    message: string;
-    errors?: {
-      field: Record<string, string[]>
-    }
-  } | null>(null);
-
+export default function DestroyTransactionDialog({id}: { id: number }) {
   const route = useRouter()
+  const [loading, setLoading] = useState<boolean>(false);
 
   async function handleSubmit() {
-    const result = await destroyTransaction(id)
+    setLoading(true)
+    const result = await deleteTransaction(id)
 
     if (result.success) {
+      setLoading(false)
       route.replace(`/transactions`)
     } else {
-      setError(result)
+      toast.error(result.errors.general?.[0] ?? result.message, {description: "Please try again", position: "top-center"})
+      setLoading(false)
     }
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent showCloseButton={false}>
-        <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. 
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline" className="cursor-pointer">Cancel</Button>
-          </DialogClose>
-          <Button variant="destructive" onClick={handleSubmit} className="cursor-pointer">Destroy</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive" className="cursor-pointer gap-2">
+          <Trash data-icon="inline-start" className="size-4"/>
+          Destroy
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent size="sm">
+        <AlertDialogHeader>
+          <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
+            <Trash />
+          </AlertDialogMedia>
+          <AlertDialogTitle>Destroy transaction?</AlertDialogTitle>
+          <AlertDialogDescription>Are you absolutely sure? This action cannot be undone.</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel variant="secondary" className="cursor-pointer">Cancel</AlertDialogCancel>
+          <AlertDialogAction variant="destructive" onClick={handleSubmit} className="cursor-pointer" disabled={loading}>
+            {loading ? <Spinner /> : "Destroy"}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }

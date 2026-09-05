@@ -1,9 +1,7 @@
 'use client'
 
 // ui components
-import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction, AlertDialogMedia } from "@/components/ui/alert-dialog"
 
 // icons
@@ -26,7 +24,7 @@ export default function EditTransactionDialog({open, onOpenChange, onConfirm, is
           <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel variant="secondary" className="cursor-pointer">Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm} className="cursor-pointer" disabled={isSubmitting}>
             {isSubmitting ? <Spinner /> : "Edit"}
           </AlertDialogAction>

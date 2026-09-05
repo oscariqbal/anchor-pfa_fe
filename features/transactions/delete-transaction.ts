@@ -1,4 +1,7 @@
-export default async function destroyWallet (id: number) {
+// types
+import { ReturnTypes } from "@/types/return.types";
+
+export default async function deleteWallet(id: number): Promise<ReturnTypes> {
   try {
     const response = await fetch(`http://localhost:5555/api/transactions/${id}`, {
       method: "DELETE",
@@ -23,7 +26,8 @@ export default async function destroyWallet (id: number) {
   } catch (error) {
     return {
       success: false,
-      message: "Network error"
+      message: "Network error",
+      errors: {}
     }
   }
 }
