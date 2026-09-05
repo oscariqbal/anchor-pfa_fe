@@ -21,7 +21,7 @@ import updateTransaction from "./update-transaction"
 import { updateFormSchema, enumTransaction } from "@/features/transactions/schema";
 
 // types
-import { ViewAllType } from "@/features/wallets/schema";
+import { GetAllType } from "@/features/wallets/types";
 import { GetType } from "@/features//transactions/types";
 import { UpdateFormType } from "@/features/transactions/types";
 
@@ -39,7 +39,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { fromZonedTime, toZonedTime } from "date-fns-tz";
 import { applyFieldErrors } from "@/helpers/applyFieldErrors";
 
-export default function EditTransactionCard({id, wallets, oldTransaction}: {id: number, wallets: ViewAllType[], oldTransaction: GetType}) {
+export default function EditTransactionCard({id, wallets, oldTransaction}: {id: number, wallets: GetAllType, oldTransaction: GetType}) {
   const user = useUser()
   const route = useRouter();
   const [openDialog, setOpenDialog] = useState(false)

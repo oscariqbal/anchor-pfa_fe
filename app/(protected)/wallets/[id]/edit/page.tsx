@@ -2,7 +2,7 @@
 import EditWalletCard  from "@/features/wallets/edit-wallet-card";
 
 // APIs
-import viewWallet from "@/features/wallets/view-wallet";
+import viewWallet from "@/features/wallets/get-wallet";
 
 // schemas and types
 import { Params } from "@/features/wallets/schema";

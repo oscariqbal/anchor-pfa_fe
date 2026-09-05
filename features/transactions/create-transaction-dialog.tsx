@@ -19,7 +19,7 @@ import createTransaction from "@/features/transactions/create-transaction"
 import { createFormSchema, enumTransaction } from "@/features/transactions/schema";
 
 // types
-import { ViewAllType } from "@/features/wallets/schema";
+import { GetAllType } from "@/features/wallets/types";
 import { CreateFormType } from "@/features/transactions/types";
 
 // icons
@@ -35,7 +35,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { applyFieldErrors } from "@/helpers/applyFieldErrors";
 
-export default function CreateTransactionDialog({walletData}: {walletData: ViewAllType[]}) {
+export default function CreateTransactionDialog({walletData}: {walletData: GetAllType}) {
   const user = useUser()
   const route = useRouter();
   const [openDialog, setOpenDialog] = useState(false)
@@ -144,7 +144,7 @@ export default function CreateTransactionDialog({walletData}: {walletData: ViewA
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          {walletData?.map(({id, type, name, balance}) => (
+                          {walletData?.map(({ id, type, name, balance }) => (
                             <SelectItem key={id} value={id.toString()} className="cursor-pointer">
                               ({type}) - {name} - {balance}
                             </SelectItem>
@@ -170,7 +170,7 @@ export default function CreateTransactionDialog({walletData}: {walletData: ViewA
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          {walletData?.map(({id, type, name, balance}) => (
+                          {walletData?.map(( {id, type, name, balance }) => (
                             <SelectItem key={id} value={id.toString()} className="cursor-pointer">
                               ({type}) - {name} - {balance}
                             </SelectItem>

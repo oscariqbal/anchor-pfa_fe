@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button"
 import EditWalletDialog from "./edit-wallet-dialog"
 
 // APIs
-import viewWallet from "./view-wallet";
+import viewWallet from "./get-wallet";
 import updateWallet from "./edit-wallet"
 
 // schemas and types

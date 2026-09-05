@@ -1,16 +1,9 @@
-// common components
-import { SkeletonCard } from "@/components/common/skeleton-component";
-import ErrorComponent from "@/components/common/error-component";
-
-// ui components
-import { toast } from "sonner"
-
 // features components
 import EditTransactionCard  from "@/features/transactions/edit-transaction-card";
 
 // APIs
-import viewTransaction from "@/features/transactions/get-transaction";
-import viewAllWallets from "@/features/wallets/view-all-wallets";
+import getTransaction from "@/features/transactions/get-transaction";
+import getAllWallets from "@/features/wallets/get-wallets";
 
 // types
 import { Params } from "@/features/transactions/types";
@@ -25,11 +18,11 @@ export const metadata: Metadata = {
 export default async function TransactionEdit({ params }: Params) {
   const { id } = await params;
 
-  const wallets = await viewAllWallets()
-  const oldTransaction = await viewTransaction(id)
+  const wallets = await getAllWallets()
+  const oldTransaction = await getTransaction(id)
   
   if (!wallets.success) {
-    throw new Error() // abis benerin get all wallet
+    throw new Error(wallets.message)
   }
 
   if (!oldTransaction.success) {
@@ -38,7 +31,7 @@ export default async function TransactionEdit({ params }: Params) {
 
   return (
     <section className="w-full flex flex-col gap-4">
-      {oldTransaction.data && 
+      {oldTransaction.data && wallets.data &&
         <EditTransactionCard id={id} wallets={wallets.data} oldTransaction={oldTransaction.data}/>
       }
     </section>

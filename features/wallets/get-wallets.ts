@@ -1,18 +1,8 @@
 import { cookies } from "next/headers";
-import { ViewAllType } from "./schema";
+import { GetAllType } from "@/features/wallets/types";
+import { ReturnTypes } from "@/types/return.types";
 
-export default async function viewAllWallets(): Promise<
-    |  {
-        success: true
-        message: string
-        data: ViewAllType[]
-      }
-    |  {
-        success: false
-        message: string
-        errors: unknown
-      }
-  > {
+export default async function getWallets(): Promise<ReturnTypes<GetAllType>> {
   const cookieStore = await cookies();
   try {
     const response = await fetch("http://localhost:5555/api/wallets", {
@@ -42,7 +32,7 @@ export default async function viewAllWallets(): Promise<
     return {
       success: false,
       message: "Network error",
-      errors: "Network error"
+      errors: {}
     }
   }
 }

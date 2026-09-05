@@ -1,28 +1,25 @@
 // ui components
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardAction } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge";
 
 // api
-import viewAllWallets from "./view-all-wallets";
-
-// schemas and types
-import { ViewAllType } from "./schema";
+import getWallets from "@/features/wallets/get-wallets";
 
 // others
 import Link from "next/link";
 
-export default async function ViewAllWallets() {
-  const result = await viewAllWallets()
+export default async function ViewWallets() {
+  // await new Promise((resolve) => setTimeout(resolve, 5000))
+  const result = await getWallets()
     
+  // throw new Error()
   if (!result.success) {
-    return (
-      <p>error</p> // error ui
-    )
+    throw new Error(result.message)
   }
 
   return (
     <div className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-      {result.data.map(({ id, type, name, description, balance }: ViewAllType) => (
+      {result.data && result.data.map(({ id, type, name, description, balance }) => (
           <Link href={`/wallets/${id}`} key={id}>
             <Card className="rounded-md">
               <CardHeader>

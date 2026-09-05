@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-export default async function viewWallet(id: number) {
+export default async function getWallet(id: number) {
   const cookieStore = await cookies();
   try {
     const response = await fetch(`http://localhost:5555/api/wallets/${id}`, {

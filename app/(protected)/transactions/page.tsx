@@ -7,19 +7,19 @@ import CreateTransactionDialog from "@/features/transactions/create-transaction-
 import ViewTransactions from "@/features/transactions/view-transactions";
 
 // APIs
-import viewAllWallets from "@/features/wallets/view-all-wallets";
+import getWallets from "@/features/wallets/get-wallets";
 
 // others
 import { Suspense } from "react";
-import ErrorBoundary from "@/helpers/error-boundary";
 import type { Metadata } from "next";
+import ErrorBoundary from "@/helpers/error-boundary";
 
 export const metadata: Metadata = {
   title: "Transactions",
 };
 
 export default async function Transactions() {
-  const result = await viewAllWallets()
+  const result = await getWallets()
 
   if (!result.success) {
     throw new Error(result.message)
@@ -28,7 +28,9 @@ export default async function Transactions() {
   return (
     <section className="w-full flex flex-col gap-4">
       <div className="ml-auto">
-        <CreateTransactionDialog walletData={result.data}/>
+        {result.data && (
+          <CreateTransactionDialog walletData={result.data} />
+        )}
       </div>
       <div>
         <ErrorBoundary fallback={<ErrorComponent message={"Unable to load transactions"}/>}>

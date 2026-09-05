@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardAction }
 import { Badge } from "@/components/ui/badge";
 
 // api
-import viewWallet from "./view-wallet";
+import viewWallet from "./get-wallet";
 
 export default async function ViewWallet({id}: {id: number}) {
   const result = await viewWallet(id)

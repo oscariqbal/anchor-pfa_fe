@@ -6,7 +6,7 @@ import PeriodicSummary from "@/features/overview/periodic-summary-section"
 import CreateTransactionDialog from "@/features/transactions/create-transaction-dialog";
 
 // api
-import viewAllWallets from "@/features/wallets/view-all-wallets";
+import viewAllWallets from "@/features/wallets/get-wallets";
 
 // others
 import type { Metadata } from "next";
@@ -19,6 +19,12 @@ export default async function Overview() {
   const result = await viewAllWallets()
 
   if (!result.success) {
+    return (
+      <p>error</p> // error ui
+    )
+  }
+
+  if (!result.data) {
     return (
       <p>error</p> // error ui
     )
