@@ -86,10 +86,9 @@ export default function CreateTransactionDialog({walletData}: {walletData: GetAl
       }
       if (result.errors.general) {
         setError("root.serverError", {
-          type: "server",
           message: result.errors.general[0] ?? result.message
         })
-        toast.error(errors.root?.serverError.message, {description: "Please try again", position: "top-center"})
+        toast.error(result.errors.general[0] ?? result.message, {description: "Please try again", position: "top-center"})
       }
     }
   }

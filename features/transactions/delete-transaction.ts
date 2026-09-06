@@ -1,7 +1,7 @@
 // types
 import { ReturnTypes } from "@/types/return.types";
 
-export default async function deleteWallet(id: number): Promise<ReturnTypes> {
+export default async function deleteTransaction(id: number): Promise<ReturnTypes> {
   try {
     const response = await fetch(`http://localhost:5555/api/transactions/${id}`, {
       method: "DELETE",

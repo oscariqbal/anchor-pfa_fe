@@ -11,19 +11,18 @@ import { Field, FieldLabel, FieldGroup, FieldSet } from "@/components/ui/field"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectTrigger, SelectContent, SelectValue, SelectGroup, SelectItem } from "@/components/ui/select"
 
-// custom components
-import EditTransactionDialog from "./edit-transaction-dialog"
+// features components
+import EditTransactionDialog from "@/features/transactions/edit-transaction-dialog"
 
 // APIs
-import updateTransaction from "./update-transaction"
+import updateTransaction from "@/features/transactions/update-transaction"
 
 // schemas
 import { updateFormSchema, enumTransaction } from "@/features/transactions/schema";
 
 // types
 import { GetAllType } from "@/features/wallets/types";
-import { GetType } from "@/features//transactions/types";
-import { UpdateFormType } from "@/features/transactions/types";
+import { GetType, UpdateFormType } from "@/features//transactions/types";
 
 // icons
 import { ChevronDownIcon } from "lucide-react"
@@ -103,13 +102,13 @@ export default function EditTransactionCard({id, wallets, oldTransaction}: {id: 
         setError("root.serverError", {
           message: updateResult.errors.general[0] ?? updateResult.message
         });
+        toast.error(updateResult.errors.general[0] ?? updateResult.message, {description: "Please try again", position: "top-center"})
       }
-      toast.error(updateResult.errors.general?.[0] ?? updateResult.message, {description: "Please try again", position: "top-center"})
     }
   }
 
   return (
-    <Card>
+    <Card className="bg-transparent">
       <FieldSet>
         <form id="update-transaction" onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
           <CardContent>
@@ -118,19 +117,19 @@ export default function EditTransactionCard({id, wallets, oldTransaction}: {id: 
                 <FieldLabel htmlFor="type">Type</FieldLabel>
                 <Controller name="type" control={control} render={({field}) => (
                   <Select value={field.value} onValueChange={field.onChange} >
-                  <SelectTrigger className="cursor-pointer">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {enumTransaction.map((option) => (
-                      <SelectItem key={option} value={option} className="cursor-pointer">
-                        {option}
-                      </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                    <SelectTrigger className="cursor-pointer">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {enumTransaction.map((option) => (
+                        <SelectItem key={option} value={option} className="cursor-pointer">
+                          {option}
+                        </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 )} />
                 {errors.type && (
                   <p className="text-destructive">{errors.type.message}</p>
@@ -248,9 +247,6 @@ export default function EditTransactionCard({id, wallets, oldTransaction}: {id: 
                 )}
               </Field>
             </FieldGroup>
-            {errors.root?.serverError && (
-              <p className="text-destructive">{errors.root.serverError.message}</p>
-            )}
           </CardContent>
           <CardFooter className="flex ml-auto gap-2">
             <Button variant={"outline"} asChild className="cursor-pointer">
@@ -262,7 +258,7 @@ export default function EditTransactionCard({id, wallets, oldTransaction}: {id: 
           </CardFooter>
         </form>
       </FieldSet>
-      <EditTransactionDialog open={openDialog} onOpenChange={setOpenDialog} onConfirm={handleConfirm} isSubmitting={isSubmitting}/>
+      <EditTransactionDialog open={openDialog} onOpenChange={setOpenDialog} onConfirm={handleConfirm} isSubmitting={isSubmitting} />
     </Card>
   );
 }

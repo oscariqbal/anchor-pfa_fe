@@ -1,15 +1,14 @@
-// custom components
+// features components
 import EditWalletCard  from "@/features/wallets/edit-wallet-card";
 
 // APIs
-import viewWallet from "@/features/wallets/get-wallet";
+import getWallet from "@/features/wallets/get-wallet";
 
-// schemas and types
-import { Params } from "@/features/wallets/schema";
+// types
+import { Params } from "@/features/wallets/types";
 
 // others
 import type { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Wallet Edit",
@@ -18,19 +17,18 @@ export const metadata: Metadata = {
 export default async function WalletEdit({ params }: Params) {
   const { id } = await params;
 
-  const oldWallet = await viewWallet(id)
+  const oldWallet = await getWallet(id)
 
   if (!oldWallet.success) {
-    console.log(oldWallet)
-    return (
-      <p>error fetch prefill data</p>
-    )
+    throw new Error(oldWallet.message)
   }
 
   return (
     <div className="w-full flex flex-col gap-4">
       <section className="w-full">
-        <EditWalletCard id={id} oldWallet={oldWallet.data}/>
+        {oldWallet.data && (
+          <EditWalletCard id={id} oldWallet={oldWallet.data}/>
+        )}
       </section>
     </div>
   );

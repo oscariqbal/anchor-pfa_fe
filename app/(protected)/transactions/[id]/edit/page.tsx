@@ -2,8 +2,8 @@
 import EditTransactionCard  from "@/features/transactions/edit-transaction-card";
 
 // APIs
-import getTransaction from "@/features/transactions/get-transaction";
 import getAllWallets from "@/features/wallets/get-wallets";
+import getTransaction from "@/features/transactions/get-transaction";
 
 // types
 import { Params } from "@/features/transactions/types";
@@ -31,9 +31,9 @@ export default async function TransactionEdit({ params }: Params) {
 
   return (
     <section className="w-full flex flex-col gap-4">
-      {oldTransaction.data && wallets.data &&
+      {oldTransaction.data && wallets.data && (
         <EditTransactionCard id={id} wallets={wallets.data} oldTransaction={oldTransaction.data}/>
-      }
+      )}
     </section>
   );
 };

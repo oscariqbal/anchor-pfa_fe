@@ -52,10 +52,9 @@ export default function CreateWalletDialog() {
       }
       if (result.errors?.general) {
         setError("root.serverError", {
-          type: "server",
           message: result.errors.general[0] ?? result.message,
         });
-        toast.error(errors.root?.serverError.message, {description: "Please try again", position: "top-center"})
+        toast.error(result.errors.general[0] ?? result.message, {description: "Please try again", position: "top-center"})
       }
     }
   };
@@ -116,9 +115,6 @@ export default function CreateWalletDialog() {
                 )}
               </Field>
             </FieldGroup>
-            {errors.root?.serverError && (
-              <p className="text-destructive">{errors.root.serverError.message}</p>
-            )}
             <DialogFooter>
               <DialogClose asChild>
                 <Button variant="outline" className="cursor-pointer">Cancel</Button>

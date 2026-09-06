@@ -19,7 +19,7 @@ export default function EditTransactionDialog({open, onOpenChange, onConfirm, is
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent size="sm">
         <AlertDialogHeader>
-          <AlertDialogMedia className="bg-yellow/10 text-yellow dark:bg-yellow/20 dark:text-yellow"><SquarePen /></AlertDialogMedia>
+          <AlertDialogMedia className="bg-yellow-500/10 text-yellow dark:bg-yellow-500/20 dark:text-yellow-500"><SquarePen /></AlertDialogMedia>
           <AlertDialogTitle>Edit transaction?</AlertDialogTitle>
           <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
         </AlertDialogHeader>

@@ -11,8 +11,10 @@ import { Trash } from 'lucide-react';
 
 // APIs
 import deleteTransaction from "@/features/transactions/delete-transaction"
-import { useRouter } from "next/navigation";
+
+// others
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function DestroyTransactionDialog({id}: { id: number }) {
   const route = useRouter()

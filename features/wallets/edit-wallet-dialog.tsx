@@ -1,33 +1,35 @@
 'use client'
 
 // ui components
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner"
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction, AlertDialogMedia } from "@/components/ui/alert-dialog"
+
+// icons
+import { SquarePen } from 'lucide-react';
 
 type EditDialog = {
   open: boolean
   onOpenChange: (open: boolean) => void
   onConfirm: () => void
+  isSubmitting: boolean
 }
 
-export default function EditWalletDialog({open, onOpenChange, onConfirm}: EditDialog) {
-
+export default function EditWalletDialog({open, onOpenChange, onConfirm, isSubmitting}: EditDialog) {
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent showCloseButton={false}>
-        <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will affect transactions related.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline" className="cursor-pointer">Cancel</Button>
-          </DialogClose>
-          <Button onClick={onConfirm} className="cursor-pointer">Submit</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent size="sm">
+        <AlertDialogHeader>
+          <AlertDialogMedia className="bg-yellow-500/10 text-yellow dark:bg-yellow-500/20 dark:text-yellow-500"><SquarePen /></AlertDialogMedia>
+          <AlertDialogTitle>Edit transaction?</AlertDialogTitle>
+          <AlertDialogDescription>This action cannot be undone. This will affect transactions related.</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel variant="secondary" className="cursor-pointer">Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={onConfirm} className="cursor-pointer" disabled={isSubmitting}>
+            {isSubmitting ? <Spinner /> : "Edit"}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }
