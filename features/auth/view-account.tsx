@@ -10,7 +10,7 @@ export default function ViewAccount() {
   const user = useUser()
   return (
     <>
-      <Card>
+      <Card className="rounded-md bg-transparent">
         <CardHeader>
           <CardTitle>Account</CardTitle>
         </CardHeader>

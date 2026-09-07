@@ -19,6 +19,9 @@ import { createSchema, enumWallet } from "@/features/wallets/schema";
 // types
 import { CreateType } from "@/features/wallets/types"
 
+// icons
+import { Plus } from "lucide-react"
+
 // others
 import { useState } from "react"
 import { useRouter } from "next/navigation";
@@ -62,13 +65,14 @@ export default function CreateWalletDialog() {
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="cursor-pointer">
-          Create
+        <Button className="cursor-pointer bg-identity/80 hover:bg-identity">
+          <Plus data-icon="inline-start" className="size-4" />
+          Add wallet
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle className="text-base">Create a Wallet</DialogTitle>
+          <DialogTitle className="text-base">Add a Wallet</DialogTitle>
           <DialogDescription>Enter your wallet detail below</DialogDescription>
         </DialogHeader>
         <FieldSet>
@@ -119,7 +123,7 @@ export default function CreateWalletDialog() {
               <DialogClose asChild>
                 <Button variant="outline" className="cursor-pointer">Cancel</Button>
               </DialogClose>
-              <Button type="submit" className="cursor-pointer" disabled={isSubmitting}>
+              <Button type="submit" className="cursor-pointer bg-identity/80 hover:bg-identity" disabled={isSubmitting}>
                 {isSubmitting ? <Spinner /> : "Submit"}
               </Button>
             </DialogFooter>

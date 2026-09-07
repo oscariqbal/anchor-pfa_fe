@@ -14,11 +14,11 @@ import {
   SidebarMenuButton,
   SidebarTrigger
 } from "@/components/ui/sidebar"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Separator } from "@/components/ui/separator";
-import { toast } from "sonner"
 
 // APIs
 import logout from "@/features/auth/logout";
@@ -30,12 +30,32 @@ import { House, Wallet, ArrowLeftRight } from "lucide-react";
 
 // others
 import Link from "next/link";
-import { useRouter } from "next/navigation"
+import { cn } from "@/lib/utils"
 import { useUser } from "@/contexts/UserContext"
+import { useRouter, usePathname } from "next/navigation"
+
+const menuItems = [
+  {
+    title: "Overview",
+    href: "/overview",
+    icon: House,
+  },
+  {
+    title: "Wallets",
+    href: "/wallets",
+    icon: Wallet,
+  },
+  {
+    title: "Transactions",
+    href: "/transactions",
+    icon: ArrowLeftRight,
+  },
+]
 
 export default function AppSidebar() {
   const user = useUser()
   const router = useRouter();
+  const pathname = usePathname()
   const { setOpenMobile } = useSidebar()
 
   async function handleLogout() {
@@ -59,31 +79,20 @@ export default function AppSidebar() {
       <Separator />
       <SidebarContent>
         <SidebarGroup className="mt-2 p-0">
-          <SidebarGroupContent className="flex flex-col gap-2 group-data-[state=collapsed]flex group-data-[state=collapsed]:flex-col group-data-[state=collapsed]:gap-6">
-            <SidebarMenuItem>
-              <Link href="/overview" onClick={() => setOpenMobile(false)}>
-                <SidebarMenuButton className="p-3 gap-4 [&_svg]:size-6 group-data-[state=collapsed]:mt-2 group-data-[state=collapsed]:mx-auto">
-                  <House />
-                  <span>Overview</span>
-                </SidebarMenuButton>
-              </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <Link href="/wallets" onClick={() => setOpenMobile(false)}>
-                <SidebarMenuButton className="p-3 gap-4 [&_svg]:size-6 group-data-[state=collapsed]:mx-auto">
-                  <Wallet/>
-                  <span>Wallets</span>
-                </SidebarMenuButton >
-              </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <Link href="/transactions" onClick={() => setOpenMobile(false)}>
-                <SidebarMenuButton className="p-3 gap-4 [&_svg]:size-6 group-data-[state=collapsed]:mx-auto">
-                  <ArrowLeftRight/>
-                  <span>Transactions</span>
-                </SidebarMenuButton>
-              </Link>
-            </SidebarMenuItem>
+          <SidebarGroupContent className="flex flex-col gap-2 group-data-[state=collapsed]:flex group-data-[state=collapsed]:flex-col group-data-[state=collapsed]:mt-2">
+            {menuItems.map(({title, href, icon: Icon}) => {
+              const isActive = pathname === href || pathname.startsWith(`${href}/`)
+              return (
+                <SidebarMenuItem key={title}>
+                  <Link href={href} onClick={() => setOpenMobile(false)}>
+                    <SidebarMenuButton className={cn("p-2 gap-4 [&_svg]:size-8 group-data-[state=collapsed]:mx-auto", isActive && "bg-identity/80 hover:bg-identity text-background hover:text-background")}>
+                      <Icon className="p-1"/>
+                      <span>{title}</span>
+                    </SidebarMenuButton>
+                  </Link>
+                </SidebarMenuItem>
+              )
+            })}
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

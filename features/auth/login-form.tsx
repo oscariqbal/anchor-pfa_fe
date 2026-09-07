@@ -47,8 +47,9 @@ export default function LoginForm() {
       }
       if (result.errors.general) {
         setError("root.serverError", {
-          message: result.errors.general[0],
+          message: result.errors.general[0] ?? result.message,
         })
+        toast.error(result.errors.general[0] ?? result.message, {description: "Please try again", position: "top-center"})
       }
     }
   }
@@ -85,8 +86,10 @@ export default function LoginForm() {
                 </Button>
               </Field>
               <Field orientation="horizontal" className="flex justify-center">
-                <p className="opacity-70">Didn't have an account?</p>
-                <Link href="/register" className="underline opacity-90 hover:opacity-100">Sign Up</Link>
+                <p className="text-muted-foreground">Didn't have an account?</p>
+                <Button variant={"link"} asChild>
+                  <Link href="/register">Sign Up</Link>
+                </Button>
               </Field>
             </FieldGroup>
           </form>

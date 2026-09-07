@@ -23,7 +23,7 @@ import { GetAllType } from "@/features/wallets/types";
 import { CreateFormType } from "@/features/transactions/types";
 
 // icons
-import { ChevronDownIcon } from "lucide-react"
+import { ChevronDownIcon, Plus } from "lucide-react"
 
 // others
 import { format } from "date-fns";
@@ -34,6 +34,7 @@ import { useUser } from "@/contexts/UserContext"
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { applyFieldErrors } from "@/helpers/applyFieldErrors";
+import { fa } from "zod/v4/locales";
 
 export default function CreateTransactionDialog({walletData}: {walletData: GetAllType}) {
   const user = useUser()
@@ -44,12 +45,12 @@ export default function CreateTransactionDialog({walletData}: {walletData: GetAl
     mode: "onChange",
     defaultValues: {
       type: "",
-      amount: 0,
-      note: "",
-      date: new Date(),
-      time: new Date().toTimeString().slice(0, 5),
       sourceWalletId: undefined,
       destinationWalletId: undefined,
+      amount: 0,
+      date: new Date(),
+      time: new Date().toTimeString().slice(0, 5),
+      note: "",
     }
   });
   
@@ -80,38 +81,56 @@ export default function CreateTransactionDialog({walletData}: {walletData: GetAl
       reset()
       setOpenDialog(false)
       route.refresh()
-    } else {
-      if (result.errors.field) {
-        applyFieldErrors(result.errors.field, setError) // type assertion issue here
-      }
-      if (result.errors.general) {
-        setError("root.serverError", {
-          message: result.errors.general[0] ?? result.message
+      return
+    }
+
+    if (result.errors.field) {
+      if (Object.hasOwn(result.errors.field, "datetime")) {
+        toast.error(result.errors.field["datetime"][0] ?? result.message, {
+          description: "Please try again", 
+          position: "top-center"
         })
-        toast.error(result.errors.general[0] ?? result.message, {description: "Please try again", position: "top-center"})
       }
+
+      applyFieldErrors(result.errors.field, setError) // type assertion issue here
+    }
+
+    if (result.errors.general) {
+      const message = result.errors.general[0] ?? result.message
+      setError("root.serverError", {
+        message: message
+      })
+
+      toast.error(message, {
+        description: "Please try again", 
+        position: "top-center"
+      })
     }
   }
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="cursor-pointer">
-          Create
+        <Button className="cursor-pointer bg-identity/80 hover:bg-identity">
+          <Plus data-icon="inline-start" className="size-4" />
+          Add transaction
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>Create a Transaction</DialogTitle>
+          <DialogTitle>Add a Transaction</DialogTitle>
           <DialogDescription>Enter your transaction detail below</DialogDescription>
         </DialogHeader>
         <FieldSet>
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
             <FieldGroup className="gap-4">
               <Field>
-                <FieldLabel htmlFor="type">Type</FieldLabel>
+                <FieldLabel htmlFor="type">
+                  Type
+                  <span className="text-destructive">*</span>
+                </FieldLabel>
                 <Controller name="type" control={control} render={({field}) => (
-                  <Select value={field.value} onValueChange={field.onChange} >
+                  <Select value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger className="cursor-pointer">
                     <SelectValue />
                   </SelectTrigger>
@@ -132,7 +151,10 @@ export default function CreateTransactionDialog({walletData}: {walletData: GetAl
               </Field>
               <div className="grid grid-cols-2 gap-4">
                 <Field>
-                  <FieldLabel htmlFor="sourceWalletId">Source Wallet</FieldLabel>
+                  <FieldLabel htmlFor="sourceWalletId">
+                    Source Wallet
+                    <span className="text-destructive">{type !== "INCOME" && "*"}</span>
+                  </FieldLabel>
                   <Controller name="sourceWalletId" control={control} render={({field}) => (
                     <Select 
                       disabled={type === "INCOME"} 
@@ -158,7 +180,10 @@ export default function CreateTransactionDialog({walletData}: {walletData: GetAl
                   )}
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="destinationWalletId">Destination Wallet</FieldLabel>
+                  <FieldLabel htmlFor="destinationWalletId">
+                    Destination Wallet
+                    <span className="text-destructive">{type !== "EXPENSE" && "*"}</span>
+                  </FieldLabel>
                   <Controller name="destinationWalletId" control={control} render={({field}) => (
                     <Select 
                       disabled={type === "EXPENSE"} 
@@ -185,12 +210,16 @@ export default function CreateTransactionDialog({walletData}: {walletData: GetAl
                 </Field>
               </div>
               <Field>
-                <FieldLabel htmlFor="amount">Amount</FieldLabel>
+                <FieldLabel htmlFor="amount">
+                  Amount
+                  <span className="text-destructive">*</span>
+                </FieldLabel>
                 <Input 
                   {...register("amount", {valueAsNumber: true})} 
                   name="amount" 
-                  id="amount" 
+                  id="amount"
                   type="amount"
+                  aria-invalid={errors.amount && true}
                 />
                 {errors.amount && (
                   <p className="text-destructive">{errors.amount.message}</p>
@@ -198,7 +227,10 @@ export default function CreateTransactionDialog({walletData}: {walletData: GetAl
               </Field>
               <div className="flex gap-4">
                 <Field className="flex-1 min-w-0">
-                  <FieldLabel htmlFor="date">Date</FieldLabel>
+                  <FieldLabel htmlFor="date">
+                    Date
+                    <span className="text-destructive">*</span>  
+                  </FieldLabel>
                   <Controller name="date" control={control} render={({field}) => (
                     <Popover>
                       <PopoverTrigger asChild>
@@ -223,7 +255,10 @@ export default function CreateTransactionDialog({walletData}: {walletData: GetAl
                   )}
                 </Field>
                 <Field className="w-auto">
-                  <FieldLabel htmlFor="time">Time</FieldLabel>
+                  <FieldLabel htmlFor="time">
+                    Time
+                    <span className="text-destructive">*</span>
+                  </FieldLabel>
                   <Input
                     {...register("time")}
                     type="time"
@@ -236,11 +271,15 @@ export default function CreateTransactionDialog({walletData}: {walletData: GetAl
                 </Field>
               </div>
               <Field>
-                <FieldLabel htmlFor="note">Note</FieldLabel>
+                <FieldLabel htmlFor="note">
+                  Note
+                  <span className="text-destructive">*</span>
+                </FieldLabel>
                 <Textarea 
                   {...register("note")}
                   id="textarea-message" 
                   placeholder="Morning coffee"
+                  aria-invalid={errors.note && true}
                 />
                 {errors.note && (
                   <p className="text-destructive">{errors.note.message}</p>
@@ -251,7 +290,7 @@ export default function CreateTransactionDialog({walletData}: {walletData: GetAl
               <DialogClose asChild>
                 <Button variant="outline" className="cursor-pointer">Cancel</Button>
               </DialogClose>
-              <Button type="submit" className="cursor-pointer" disabled={isSubmitting}>
+              <Button type="submit" className="cursor-pointer bg-identity/80 hover:bg-identity" disabled={isSubmitting}>
                 {isSubmitting ? <Spinner /> : "Submit"}
               </Button>
             </DialogFooter>

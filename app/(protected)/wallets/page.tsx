@@ -1,5 +1,5 @@
 // common components
-import { SkeletonCardItem } from "@/components/common/skeleton-component";
+import { SkeletonCard } from "@/components/common/skeleton-component";
 import ErrorComponent from "@/components/common/error-component";
 
 // custom components
@@ -22,8 +22,8 @@ export default function Wallets() {
         <CreateWalletDialog />
       </div>
       <div>
-        <ErrorBoundary fallback={<ErrorComponent message={"Unable to load transactions"}/>}>
-          <Suspense fallback={<SkeletonCardItem className="h-16"/>}>
+        <ErrorBoundary fallback={<ErrorComponent message={"Unable to load wallets"} />}>
+          <Suspense fallback={<SkeletonCard className="w-1/4 h-32" />}>
             <ViewWallets />
           </Suspense>
         </ErrorBoundary>

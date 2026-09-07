@@ -23,8 +23,8 @@ export default async function ViewWallets() {
           <Link href={`/wallets/${id}`} key={id}>
             <Card className="rounded-md">
               <CardHeader>
-                <CardTitle className="line-clamp-1 text-xs md:text-base">{name}</CardTitle>
-                <CardDescription className="line-clamp-2 text-xs md:text-base min-h-[2rem] md:min-h-[3rem] leading-4 md:leading-6">{description ?? ""}</CardDescription>
+                <CardTitle className="line-clamp-1 text-sm md:text-base">{name}</CardTitle>
+                <CardDescription className="line-clamp-2 text-xs md:text-sm min-h-[2rem] md:min-h-[3rem] leading-4 md:leading-6">{description ?? ""}</CardDescription>
                 <CardAction>
                   <Badge variant="secondary">{type}</Badge>
                 </CardAction>

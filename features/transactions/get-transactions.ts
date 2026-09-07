@@ -10,7 +10,6 @@ export default async function getTransactions(query?: string): Promise<ReturnTyp
       headers: {
         Cookie: cookieStore.toString(),
       },
-      credentials: "include",
     });
 
     const body = await response.json()

@@ -17,7 +17,6 @@ export const metadata: Metadata = {
 
 export default async function TransactionEdit({ params }: Params) {
   const { id } = await params;
-
   const wallets = await getAllWallets()
   const oldTransaction = await getTransaction(id)
   

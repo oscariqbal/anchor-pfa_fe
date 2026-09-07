@@ -48,8 +48,9 @@ export default function RegisterForm() {
       }
       if (result.errors.general) {
         setError("root.serverError", {
-          message: result.errors.general[0],
+          message: result.errors.general[0] ?? result.message,
         })
+        toast.error(result.errors.general[0] ?? result.message, {description: "Please try again", position: "top-center"})
       }
     }
   }
@@ -93,8 +94,10 @@ export default function RegisterForm() {
                 </Button>
               </Field>
               <Field orientation="horizontal" className="flex justify-center">
-                <p className="opacity-70">Already have an account?</p>
-                <Link href="/login" className="underline opacity-90 hover:opacity-100">Sign In</Link>
+                <p className="text-muted-foreground">Already have an account?</p>
+                <Button variant={"link"} asChild>
+                <Link href="/login">Sign In</Link>
+                </Button>
               </Field>
             </FieldGroup>
           </form>

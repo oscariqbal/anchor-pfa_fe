@@ -37,7 +37,7 @@ export default function FooterPublic(){
       <Separator />
       <div className='flex flex-col md:flex-row items-center md:justify-between py-2 px-2 bg-linear-to-b from-border/10 to-background'>
         <div className="py-2 px-4 bg-background/20">
-          <p className="font-extralight tracking-wide text-xs sm:text-xs md:text-sm opacity-60">© 2026 <span className="text-identity font-bold">Anchor</span>. Builded by Oscar Iqbal Mustofa</p>
+          <p className="font-extralight tracking-wide text-xs sm:text-xs md:text-sm text-muted-foreground">©2026 <span className="text-identity font-normal">Anchor</span>. Builded by Oscar Iqbal Mustofa</p>
         </div>
         <ul className="flex gap-4 md:gap-6 py-2 px-2 rounded-xl" >
           {Contacts.map(({name, link, comp}, i) => {

@@ -1,37 +1,13 @@
-type TransactionSummary = {
-  totalIncome: string
-  totalExpense: string
-  cashFlow: string
-  incomeTrend: {
-    time: string
-    amount: number
-  }[]
-  expenseTrend: {
-    time: string
-    amount: number
-  }[]
-}
+// types
+import { ReturnTypes } from "@/types/return.types";
+import { GetSummaryType } from "@/features/overview/types";
 
-type TransactionSummaryResult =
-  | {
-      success: true
-      message: string
-      data: TransactionSummary
-    }
-  | {
-      success: false
-      message: string
-      errors: {
-        field?: Record<string, string[]>
-        general?: string[]
-      }
-    }
-
-export default async function transactionSummary (query: string): Promise<TransactionSummaryResult> {
+export default async function transactionSummary (query: string): Promise<ReturnTypes<GetSummaryType>> {
   try {
     const response = await fetch(`http://localhost:5555/api/transactions/summary${query}`, {
       method: "GET",
-      credentials: "include"
+      credentials: "include",
+      cache: "no-store"
     });
 
     const body = await response.json()
@@ -53,7 +29,7 @@ export default async function transactionSummary (query: string): Promise<Transa
     return {
       success: false,
       message: "Network error",
-      errors: {general: ["Network error"]}
+      errors: {}
     }
   }
 }

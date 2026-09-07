@@ -10,7 +10,7 @@ function SkeletonCard({className}: {className?: string}) {
         <Skeleton className="h-4 w-1/2" />
       </CardHeader>
       <CardContent>
-        <Skeleton className="aspect-video w-full" />
+        <Skeleton className="h-4 w-full" />
       </CardContent>
     </Card>
   )
@@ -22,7 +22,14 @@ function SkeletonCardItem({className}: {className?: string}) {
   )
 }
 
+function SkeletonText() {
+  return (
+    <Skeleton className="h-4 w-full" />
+  )
+}
+
 export {
   SkeletonCard,
-  SkeletonCardItem
+  SkeletonCardItem,
+  SkeletonText
 }

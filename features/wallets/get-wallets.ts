@@ -13,7 +13,6 @@ export default async function getWallets(): Promise<ReturnTypes<GetAllType>> {
       headers: {
         Cookie: cookieStore.toString(),
       },
-      cache: "no-store"
     });
 
     const body = await response.json()

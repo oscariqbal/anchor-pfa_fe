@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardDescription, } from "@/components/ui/card"
 
 // custom components
-import PeriodicSummary from "@/features/overview/periodic-summary-section"
+import PeriodicSummary from "@/features/overview/periodic-summary"
 import CreateTransactionDialog from "@/features/transactions/create-transaction-dialog";
 
 // api
@@ -18,37 +18,29 @@ export const metadata: Metadata = {
 export default async function Overview() {
   const result = await viewAllWallets()
 
-  if (!result.success) {
-    return (
-      <p>error</p> // error ui
-    )
-  }
-
-  if (!result.data) {
-    return (
-      <p>error</p> // error ui
-    )
+  if (!result.success || !result.data) {
+    throw new Error(result.message)
   }
   
   const total = result.data.reduce((sum, item) => sum + Number(item.balance), 0)
 
   return (
-    <div className="flex flex-col gap-4">
-      <section>
-        <Card className="rounded-md" size="sm">
+    <section className="flex flex-col gap-4">
+      <div>
+        <Card className="rounded-md bg-transparent" size="sm">
           <CardHeader>
-            <CardDescription className="text-xs md:text-base">
+            <CardDescription className="text-sm md:text-base">
               Available Balance
             </CardDescription>
           </CardHeader>
-          <CardContent className="text-lg flex justify-between">
+          <CardContent className="text-2xl flex justify-between">
             <p>Rp.</p>
             <p className="font-bold">{total}</p>
           </CardContent>
         </Card>
-      </section>
+      </div>
       <PeriodicSummary />
       <CreateTransactionDialog walletData={result.data}/>
-    </div>
+    </section>
   );
 };
