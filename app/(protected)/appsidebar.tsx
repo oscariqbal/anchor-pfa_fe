@@ -20,8 +20,8 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
-// APIs
-import logout from "@/features/auth/logout";
+// feature components
+import LogOutDialog from "@/features/auth/logout-dialog";
 
 // icons
 import AnchorIcon from "@/public/icon/anchor";
@@ -31,8 +31,9 @@ import { House, Wallet, ArrowLeftRight } from "lucide-react";
 // others
 import Link from "next/link";
 import { cn } from "@/lib/utils"
+import { useState } from "react";
 import { useUser } from "@/contexts/UserContext"
-import { useRouter, usePathname } from "next/navigation"
+import { usePathname } from "next/navigation"
 
 const menuItems = [
   {
@@ -54,18 +55,12 @@ const menuItems = [
 
 export default function AppSidebar() {
   const user = useUser()
-  const router = useRouter();
   const pathname = usePathname()
   const { setOpenMobile } = useSidebar()
+  const [openDialog, setOpenDialog] = useState(false)
 
   async function handleLogout() {
-    const result = await logout()
-
-    if (result.success) {
-      router.replace("/");
-    } else {
-      toast.error("Failed to sign out")
-    }
+    setOpenDialog(true)
   }
 
   return (
@@ -130,6 +125,7 @@ export default function AppSidebar() {
             <p className="text-xs opacity-50">{user.email}</p>
           </div>
       </SidebarFooter>
+      <LogOutDialog open={openDialog} onOpenChange={setOpenDialog} />
       <SidebarRail />
     </Sidebar>
   )
